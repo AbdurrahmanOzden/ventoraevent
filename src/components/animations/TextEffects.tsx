@@ -125,7 +125,7 @@ export function MarqueeText({
   const loop = `${content}${separator}${content}${separator}`;
 
   return (
-    <div className={`overflow-hidden border-y border-[var(--border)] bg-[var(--surface)]/60 ${className ?? ""}`}>
+    <div className={`overflow-hidden border-y border-[var(--line)] bg-[var(--surface)]/60 ${className ?? ""}`}>
       <div className="marquee-track py-5">
         <span className="font-display px-4 text-2xl font-semibold tracking-[0.18em] text-white/80 md:text-4xl whitespace-nowrap">
           {loop}

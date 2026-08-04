@@ -173,9 +173,13 @@ export function ServicesEditor() {
     detailedDescription: "",
     imageUrl: "/images/services/kurumsal-etkinlikler.jpg",
     features: [{ id: generateId("f"), text: "" }],
-    buttonText: "Teklif Al",
+    buttonText: "Hizmeti İncele",
     active: true,
     sortOrder: services.length + 1,
+    eyebrow: "VENTORA",
+    accentLabel: "",
+    featured: false,
+    layoutVariant: "split",
   });
 
   return (
@@ -267,10 +271,41 @@ export function ServicesEditor() {
               value={editing.buttonText}
               onChange={(e) => setEditing({ ...editing, buttonText: e.target.value })}
             />
+            <Input
+              label="Üst Etiket (eyebrow)"
+              value={editing.eyebrow || ""}
+              onChange={(e) => setEditing({ ...editing, eyebrow: e.target.value })}
+            />
+            <div>
+              <label className="admin-label" htmlFor="service-layout">
+                Panel Düzeni
+              </label>
+              <select
+                id="service-layout"
+                className="admin-input"
+                value={editing.layoutVariant || "split"}
+                onChange={(e) =>
+                  setEditing({
+                    ...editing,
+                    layoutVariant: e.target.value as ServiceItem["layoutVariant"],
+                  })
+                }
+              >
+                <option value="split">Split</option>
+                <option value="full-image">Full Image</option>
+                <option value="editorial">Editorial</option>
+                <option value="collage">Collage</option>
+              </select>
+            </div>
             <Toggle
               label="Aktif"
               checked={editing.active}
               onChange={(active) => setEditing({ ...editing, active })}
+            />
+            <Toggle
+              label="Ana Sayfada Öne Çıkar"
+              checked={!!editing.featured}
+              onChange={(featured) => setEditing({ ...editing, featured })}
             />
             <div className="space-y-2">
               <p className="admin-label">Özellikler</p>
@@ -329,6 +364,10 @@ export function ServicesEditor() {
                   features: editing.features.filter((f) => f.text.trim()),
                   buttonText: editing.buttonText,
                   active: editing.active,
+                  eyebrow: editing.eyebrow || "VENTORA",
+                  accentLabel: editing.accentLabel || "",
+                  featured: !!editing.featured,
+                  layoutVariant: editing.layoutVariant || "split",
                 };
                 if (editing.id) {
                   updateService(editing.id, payload);

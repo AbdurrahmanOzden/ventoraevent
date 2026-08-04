@@ -1,16 +1,13 @@
 "use client";
 
-import { SplitText, TextReveal, MarqueeText } from "@/components/animations/TextEffects";
-import { PrimaryButton, SecondaryButton } from "@/components/ui/Button";
+import { CinematicHero } from "@/components/home/CinematicHero";
 import { Counter } from "@/components/ui/Counter";
-import { ReferenceCard, ServiceCard, ValueCard } from "@/components/ui/Cards";
-import { ContactCta } from "@/components/sections/ContactCta";
-import { SectionTitle } from "@/components/animations/TextEffects";
-import { EventPulseBackground } from "@/components/effects/EventPulseBackground";
+import { ReferenceCard } from "@/components/ui/Cards";
+import { PrimaryButton, SecondaryButton } from "@/components/ui/Button";
+import { HorizontalServiceJourney } from "@/components/services/HorizontalServiceJourney";
 import { fadeUp, staggerContainer } from "@/lib/animations";
 import { useSiteContent } from "@/hooks/use-site-content";
 import { motion } from "framer-motion";
-import { ArrowDown } from "lucide-react";
 import Link from "next/link";
 
 export function HomePage() {
@@ -19,92 +16,85 @@ export function HomePage() {
 
   const activeServices = services
     .filter((s) => s.active)
-    .sort((a, b) => a.sortOrder - b.sortOrder)
-    .slice(0, 6);
+    .sort((a, b) => a.sortOrder - b.sortOrder);
+  const featuredMarked = activeServices.filter((s) => s.featured);
+  const featuredServices = (featuredMarked.length > 0 ? featuredMarked : activeServices).slice(
+    0,
+    5
+  );
+
   const featuredProjects = references
     .filter((r) => r.active)
     .sort((a, b) => a.sortOrder - b.sortOrder)
-    .slice(0, 3);
+    .slice(0, 4);
+
   const activeValues = values
     .filter((v) => v.active)
     .sort((a, b) => a.sortOrder - b.sortOrder)
-    .slice(0, 3);
+    .slice(0, 4);
 
   return (
     <>
-      <HeroSection />
-      <MarqueeText items={home.marqueeTexts.map((m) => m.text)} />
+      <CinematicHero />
 
       <section className="mx-auto max-w-7xl px-5 py-24 md:px-8">
-        <div className="grid items-center gap-12 lg:grid-cols-2">
+        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
-            <SectionTitle title={home.aboutPreviewTitle} />
-            <p className="mt-6 text-lg leading-relaxed text-[var(--muted)]">
+            <p className="section-label">02 / Yaklaşım</p>
+            <h2 className="font-display mt-4 text-3xl font-semibold md:text-5xl">
+              {home.aboutPreviewTitle}
+            </h2>
+          </div>
+          <div>
+            <p className="text-lg leading-relaxed text-[var(--muted)]">
               {home.aboutPreviewDescription}
             </p>
             <Link
               href="/biz-kimiz"
-              className="mt-8 inline-flex text-[var(--primary)] hover:underline"
+              className="mt-8 inline-flex items-center gap-2 border-b border-[var(--accent)] pb-1 text-sm text-[var(--accent)]"
             >
               Biz Kimiz →
             </Link>
           </div>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--surface)]">
-            <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/30 via-transparent to-[var(--secondary)]/30" />
-            <div className="absolute inset-0 grid-texture" />
-            <div className="absolute inset-0 flex items-end p-8">
-              <p className="font-display text-3xl font-bold md:text-4xl">
-                Strateji. Kreatif.
-                <br />
-                Prodüksiyon.
-              </p>
-            </div>
-          </div>
         </div>
       </section>
 
-      <section className="bg-[var(--surface)]/40 py-24">
-        <div className="mx-auto max-w-7xl px-5 md:px-8">
-          <SectionTitle title={home.servicesSectionTitle} />
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-10%" }}
-            className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {activeServices.map((service, index) => (
-              <ServiceCard
-                key={service.id}
-                number={String(index + 1).padStart(2, "0")}
-                title={service.title}
-                description={service.shortDescription}
-                icon={["Building2", "Rocket", "Music", "Gem", "Cpu", "Palette"][index] ?? "Sparkles"}
-              />
-            ))}
-          </motion.div>
-        </div>
-      </section>
+      <HorizontalServiceJourney
+        services={featuredServices}
+        introTitle={home.servicesSectionTitle}
+        introSubtitle="Seçili hizmetlerimizi kaydırarak keşfedin."
+      />
 
       <section className="mx-auto max-w-7xl px-5 py-24 md:px-8">
-        <SectionTitle title={home.projectsSectionTitle} />
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-        >
-          {featuredProjects.map((project) => (
-            <ReferenceCard key={project.id} {...project} />
-          ))}
-        </motion.div>
-        <div className="mt-10 text-center">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="section-label">03 / Projeler</p>
+            <h2 className="font-display mt-3 text-3xl font-semibold md:text-5xl">
+              {home.projectsSectionTitle}
+            </h2>
+          </div>
           <SecondaryButton href="/referanslar">Tüm Referanslar</SecondaryButton>
+        </div>
+
+        <div className="grid gap-5 md:grid-cols-12">
+          {featuredProjects.map((project, index) => (
+            <div
+              key={project.id}
+              className={
+                index === 0
+                  ? "md:col-span-7"
+                  : index === 1
+                    ? "md:col-span-5"
+                    : "md:col-span-6"
+              }
+            >
+              <ReferenceCard {...project} />
+            </div>
+          ))}
         </div>
       </section>
 
-      <section className="border-y border-[var(--border)] bg-[var(--surface)] py-20">
+      <section className="border-y border-[var(--line)] bg-[var(--background-soft)]/75 py-20 backdrop-blur-[2px]">
         <div className="mx-auto grid max-w-7xl grid-cols-2 gap-10 px-5 md:grid-cols-4 md:px-8">
           {home.statistics.map((stat) => (
             <Counter
@@ -118,96 +108,74 @@ export function HomePage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-5 py-24 md:px-8">
-        <SectionTitle title={home.valuesSectionTitle} />
+        <p className="section-label">05 / Değerler</p>
+        <h2 className="font-display mt-3 text-3xl font-semibold md:text-5xl">
+          {home.valuesSectionTitle}
+        </h2>
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="mt-12 grid gap-5 md:grid-cols-3"
+          className="mt-12 grid gap-4 md:grid-cols-2"
         >
           {activeValues.map((value, index) => (
-            <ValueCard
+            <motion.article
               key={value.id}
-              title={value.title}
-              description={value.description}
-              icon={value.icon}
-              index={index}
-            />
+              variants={fadeUp}
+              className="border border-[var(--line)] bg-[var(--surface)] p-6 md:p-8"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <h3 className="font-display text-2xl font-semibold">{value.title}</h3>
+                <span className="text-xs tabular-nums text-[var(--muted)]">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+              </div>
+              <p className="mt-4 text-[var(--muted)]">{value.description}</p>
+            </motion.article>
           ))}
         </motion.div>
-        <div className="mt-10">
+        <div className="mt-8">
           <SecondaryButton href="/degerlerimiz">Tüm Değerlerimiz</SecondaryButton>
         </div>
       </section>
 
       <section className="overflow-hidden py-16">
-        <p className="mb-8 text-center text-sm tracking-[0.2em] text-[var(--muted)] uppercase">
+        <p className="mb-8 text-center text-xs tracking-[0.22em] text-[var(--muted)] uppercase">
           Güvenilen Markalar
         </p>
-        <div className="marquee-track gap-6 px-4">
+        <div className="marquee-track gap-4 px-4">
           {[...clientLogos, ...clientLogos].map((logo, index) => (
             <div
               key={`${logo.id}-${index}`}
-              className="mx-3 flex h-20 w-44 shrink-0 items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4"
-              aria-label={logo.name}
+              className="mx-2 flex h-16 w-40 shrink-0 items-center justify-center border border-[var(--line)] bg-[var(--surface)] px-3"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={logo.logoUrl} alt={logo.name} className="max-h-10 max-w-full opacity-80" />
+              <img src={logo.logoUrl} alt={logo.name} className="max-h-8 max-w-full opacity-70" />
             </div>
           ))}
         </div>
       </section>
 
-      <ContactCta title={home.contactCtaTitle} description={home.contactCtaDescription} />
-    </>
-  );
-}
-
-function HeroSection() {
-  const { content } = useSiteContent();
-  const { home } = content;
-
-  return (
-    <section className="relative flex min-h-screen items-center overflow-hidden pt-28 pb-16">
-      <EventPulseBackground />
-
-      <div className="relative z-10 mx-auto max-w-7xl px-5 md:px-8">
-        <motion.p
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="mb-6 text-sm tracking-[0.25em] text-[var(--primary)] uppercase"
-        >
-          Etkinlik • Prodüksiyon • Organizasyon
-        </motion.p>
-        <TextReveal>
-          <h1 className="font-display max-w-5xl text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl md:text-7xl">
-            <SplitText text={home.heroHeadline} mode="words" as="span" />
-          </h1>
-        </TextReveal>
-        <p className="mt-7 max-w-2xl text-lg text-[var(--muted)] md:text-xl">
-          {home.heroDescription}
-        </p>
-        <div className="mt-10 flex flex-wrap gap-4">
-          <PrimaryButton href={home.primaryButtonUrl} size="lg">
-            {home.primaryButtonText}
-          </PrimaryButton>
-          <SecondaryButton href={home.secondaryButtonUrl} size="lg">
-            {home.secondaryButtonText}
-          </SecondaryButton>
+      <section className="mx-auto max-w-7xl px-5 pb-24 md:px-8">
+        <div className="relative overflow-hidden border border-[var(--line)] bg-[var(--surface)] p-8 md:p-14">
+          <div className="absolute inset-0 line-grid opacity-20" />
+          <div className="relative z-10 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+            <div>
+              <p className="section-label">Sonraki Adım</p>
+              <h2 className="font-display mt-4 max-w-3xl text-3xl font-semibold md:text-5xl">
+                {home.contactCtaTitle}
+              </h2>
+              <p className="mt-4 max-w-2xl text-[var(--muted)]">
+                {home.contactCtaDescription}
+              </p>
+            </div>
+            <PrimaryButton href="/iletisim" size="lg">
+              Teklif Al
+            </PrimaryButton>
+          </div>
         </div>
-      </div>
-
-      <a
-        href="#content-start"
-        className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 text-xs tracking-widest text-[var(--muted)] uppercase"
-        aria-label="Aşağı kaydır"
-      >
-        Kaydır
-        <ArrowDown className="h-4 w-4 animate-bounce" />
-      </a>
-      <div id="content-start" className="sr-only" />
-    </section>
+      </section>
+    </>
   );
 }

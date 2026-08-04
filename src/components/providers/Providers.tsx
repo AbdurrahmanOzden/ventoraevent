@@ -26,8 +26,13 @@ export function Providers({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!hydrated) return;
+    document.documentElement.style.setProperty("--accent", content.settings.primaryAccent);
     document.documentElement.style.setProperty("--primary", content.settings.primaryAccent);
     document.documentElement.style.setProperty("--secondary", content.settings.secondaryAccent);
+    document.documentElement.style.setProperty(
+      "--accent-soft",
+      `${content.settings.primaryAccent}29`
+    );
   }, [hydrated, content.settings.primaryAccent, content.settings.secondaryAccent]);
 
   return (

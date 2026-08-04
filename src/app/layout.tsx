@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import { Manrope, Syne } from "next/font/google";
+import { Archivo, Manrope } from "next/font/google";
 import { Providers } from "@/components/providers/Providers";
 import "./globals.css";
 
-const syne = Syne({
-  variable: "--font-syne",
-  subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
+const archivo = Archivo({
+  variable: "--font-archivo",
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 const manrope = Manrope({
   variable: "--font-manrope",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   weight: ["400", "500", "600", "700"],
 });
 
@@ -73,7 +73,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="tr" className={`${syne.variable} ${manrope.variable} h-full antialiased`}>
+    <html lang="tr" className={`${archivo.variable} ${manrope.variable} h-full antialiased`}>
       <body className="min-h-full bg-[var(--background)] text-[var(--foreground)]">
         <script
           type="application/ld+json"

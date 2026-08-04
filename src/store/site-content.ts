@@ -3,6 +3,7 @@
 import { create } from "zustand";
 import { defaultSiteContent } from "@/data/default-site-content";
 import { STORAGE_KEY } from "@/lib/constants";
+import { normalizeSiteContent } from "@/lib/normalize";
 import { generateId, reorderList } from "@/lib/utils";
 import type {
   AboutPageContent,
@@ -124,23 +125,22 @@ function migrateContent(stored: SiteContent): SiteContent {
 
   const services = stored.services.map((service) => {
     const nextImage = SERVICE_IMAGE_BY_ID[service.id];
-    if (!nextImage) return service;
     const isPlaceholder =
       !service.imageUrl ||
       service.imageUrl.startsWith("/images/service-") ||
       service.imageUrl.includes("nova");
-    return isPlaceholder || looksLikeLegacyBrand
+    return nextImage && (isPlaceholder || looksLikeLegacyBrand)
       ? { ...service, imageUrl: nextImage }
       : service;
   });
 
-  return {
+  return normalizeSiteContent({
     ...stored,
     settings,
     contactInfo,
     about,
     services,
-  };
+  });
 }
 
 export const useSiteContentStore = create<SiteContentState>((set, get) => ({
@@ -149,7 +149,7 @@ export const useSiteContentStore = create<SiteContentState>((set, get) => ({
 
   hydrate: () => {
     const stored = readStoredContent();
-    const content = stored ?? defaultSiteContent;
+    const content = normalizeSiteContent(stored ?? defaultSiteContent);
     set({
       content,
       hydrated: true,

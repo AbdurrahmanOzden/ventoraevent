@@ -1,7 +1,7 @@
 "use client";
 
 import { MarqueeText } from "@/components/animations/TextEffects";
-import { PageHero } from "@/components/layout/PageHero";
+import { PageIntro } from "@/components/layout/PageIntro";
 import { ContactCta } from "@/components/sections/ContactCta";
 import { ReferenceCard } from "@/components/ui/Cards";
 import { useSiteContent } from "@/hooks/use-site-content";
@@ -29,23 +29,22 @@ export function ReferencesPage() {
 
   return (
     <>
-      <PageHero
-        title="Referanslar"
-        subtitle="Markalar ve kurumlarla birlikte hayata geçirdiğimiz seçili projeler ve iş birlikleri."
+      <PageIntro
+        number="05"
+        label="REFERANSLAR"
+        title="Markalar ve kurumlarla birlikte hayata geçirdiğimiz seçili projeler."
+        description="Her iş birliği; strateji, kreatif ve prodüksiyonun aynı ritimde çalıştığı bir deneyim olarak kurgulanır."
       />
 
       <section className="overflow-hidden pb-10">
-        <p className="mb-6 text-center text-sm tracking-[0.2em] text-[var(--muted)] uppercase">
-          İş Ortaklarımız
-        </p>
-        <div className="marquee-track gap-6">
+        <div className="marquee-track gap-4">
           {[...content.clientLogos, ...content.clientLogos].map((logo, index) => (
             <div
               key={`${logo.id}-${index}`}
-              className="mx-3 flex h-20 w-44 shrink-0 items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4"
+              className="mx-2 flex h-16 w-40 shrink-0 items-center justify-center border border-[var(--line)] bg-[var(--surface)] px-3"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={logo.logoUrl} alt={logo.name} className="max-h-10 max-w-full" />
+              <img src={logo.logoUrl} alt={logo.name} className="max-h-8 max-w-full" />
             </div>
           ))}
         </div>
@@ -59,10 +58,10 @@ export function ReferencesPage() {
               type="button"
               onClick={() => setCategory(item)}
               className={cn(
-                "rounded-full border px-4 py-2 text-sm transition",
+                "border px-4 py-2 text-sm transition",
                 category === item
-                  ? "border-[var(--primary)] bg-[var(--primary)]/20 text-white"
-                  : "border-[var(--border)] text-[var(--muted)] hover:text-white"
+                  ? "border-[var(--accent)] bg-[var(--accent-soft)] text-white"
+                  : "border-[var(--line)] text-[var(--muted)] hover:text-white"
               )}
             >
               {item}
@@ -75,19 +74,24 @@ export function ReferencesPage() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          className="grid gap-5 md:grid-cols-12"
         >
-          {references.map((project) => (
-            <ReferenceCard key={project.id} {...project} />
+          {references.map((project, index) => (
+            <div
+              key={project.id}
+              className={index % 5 === 0 ? "md:col-span-7" : "md:col-span-5"}
+            >
+              <ReferenceCard {...project} />
+            </div>
           ))}
         </motion.div>
 
         {testimonials.length > 0 ? (
-          <div className="mt-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-20 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {testimonials.map((item) => (
               <blockquote
                 key={`t-${item.id}`}
-                className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6"
+                className="border border-[var(--line)] bg-[var(--surface)] p-6"
               >
                 <p className="leading-relaxed text-white/85">&ldquo;{item.testimonial}&rdquo;</p>
                 <footer className="mt-4 text-sm text-[var(--muted)]">
@@ -99,10 +103,7 @@ export function ReferencesPage() {
         ) : null}
       </section>
 
-      <MarqueeText
-        items={content.home.marqueeTexts.map((m) => m.text).slice(0, 4)}
-      />
-
+      <MarqueeText items={content.home.marqueeTexts.map((m) => m.text).slice(0, 4)} />
       <ContactCta
         title={content.home.contactCtaTitle}
         description={content.home.contactCtaDescription}

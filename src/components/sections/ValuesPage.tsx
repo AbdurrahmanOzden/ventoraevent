@@ -1,10 +1,9 @@
 "use client";
 
-import { PageHero } from "@/components/layout/PageHero";
+import { PageIntro } from "@/components/layout/PageIntro";
 import { ContactCta } from "@/components/sections/ContactCta";
-import { ValueCard } from "@/components/ui/Cards";
 import { useSiteContent } from "@/hooks/use-site-content";
-import { staggerContainer } from "@/lib/animations";
+import { fadeUp, staggerContainer } from "@/lib/animations";
 import { motion } from "framer-motion";
 
 export function ValuesPage() {
@@ -15,9 +14,11 @@ export function ValuesPage() {
 
   return (
     <>
-      <PageHero
-        title="Değerlerimiz"
-        subtitle="Her projede yolumuzu belirleyen ilkeler; yaratıcılıktan güvene, yenilikçilikten insan odaklılığa."
+      <PageIntro
+        number="03"
+        label="DEĞERLERİMİZ"
+        title="Her projede yolumuzu belirleyen ilkeler."
+        description="Yaratıcılıktan güvene, yenilikçilikten insan odaklılığa kadar Ventora’nın üretim ritmini oluşturan değerler."
       />
 
       <section className="mx-auto max-w-7xl px-5 pb-24 md:px-8">
@@ -26,16 +27,26 @@ export function ValuesPage() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-5%" }}
-          className="grid gap-5 md:grid-cols-2 lg:grid-cols-3"
+          className="space-y-4"
         >
           {activeValues.map((value, index) => (
-            <ValueCard
+            <motion.article
               key={value.id}
-              title={value.title}
-              description={value.description}
-              icon={value.icon}
-              index={index}
-            />
+              variants={fadeUp}
+              className="grid gap-6 border border-[var(--line)] bg-[var(--surface)] p-6 md:grid-cols-[120px_1fr] md:p-8"
+            >
+              <p className="font-display text-4xl font-semibold tabular-nums text-white/15">
+                {String(index + 1).padStart(2, "0")}
+              </p>
+              <div>
+                <h3 className="font-display text-2xl font-semibold md:text-3xl">
+                  {value.title}
+                </h3>
+                <p className="mt-3 max-w-3xl leading-relaxed text-[var(--muted)]">
+                  {value.description}
+                </p>
+              </div>
+            </motion.article>
           ))}
         </motion.div>
       </section>

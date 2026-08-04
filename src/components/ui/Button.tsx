@@ -5,23 +5,24 @@ import type { ButtonHTMLAttributes, ReactNode } from "react";
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   href?: string;
-  variant?: "primary" | "secondary" | "ghost" | "danger";
+  variant?: "primary" | "secondary" | "ghost" | "danger" | "line";
   size?: "sm" | "md" | "lg";
   className?: string;
 }
 
 const variants = {
   primary:
-    "bg-[var(--primary)] text-white shadow-[0_0_28px_var(--glow-primary)] hover:brightness-110",
+    "bg-[var(--accent)] text-white hover:brightness-110 shadow-[0_0_0_1px_rgba(239,73,56,0.35)]",
   secondary:
-    "border border-[var(--border)] bg-white/5 text-white hover:bg-white/10 hover:border-white/25",
+    "border border-[var(--line-strong)] bg-transparent text-[var(--foreground)] hover:border-[var(--foreground)]",
+  line: "rounded-none border-b border-[var(--line-strong)] px-0 pb-1 text-[var(--foreground)] hover:border-[var(--accent)] hover:text-[var(--accent)]",
   ghost: "text-[var(--muted)] hover:text-white hover:bg-white/5",
   danger:
     "bg-[var(--danger)]/15 text-[var(--danger)] border border-[var(--danger)]/30 hover:bg-[var(--danger)]/25",
 };
 
 const sizes = {
-  sm: "px-3.5 py-2 text-sm",
+  sm: "px-4 py-2 text-sm",
   md: "px-5 py-2.5 text-sm",
   lg: "px-7 py-3.5 text-base",
 };
@@ -66,10 +67,12 @@ function BaseButton({
   className,
   ...props
 }: ButtonProps) {
+  const rounded = variant === "line" ? "" : "rounded-sm";
   const classes = cn(
-    "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)] disabled:opacity-50 disabled:pointer-events-none",
+    "inline-flex items-center justify-center gap-2 font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)] disabled:opacity-50 disabled:pointer-events-none",
+    rounded,
     variants[variant],
-    sizes[size],
+    variant === "line" ? "text-sm tracking-wide" : sizes[size],
     className
   );
 

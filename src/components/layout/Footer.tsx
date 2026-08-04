@@ -16,10 +16,10 @@ export function Footer() {
     .slice(0, 5);
 
   return (
-    <footer className="border-t border-[var(--border)] bg-[var(--surface)]">
+    <footer className="border-t border-[var(--line)] bg-[var(--background-soft)]">
       <div className="mx-auto grid max-w-7xl gap-10 px-5 py-16 md:grid-cols-2 md:px-8 lg:grid-cols-4">
-        <div className="lg:col-span-1">
-          <p className="font-display text-2xl font-bold">{settings.logoText}</p>
+        <div>
+          <p className="font-display text-2xl font-semibold">{settings.logoText}</p>
           <p className="mt-1 text-xs tracking-wide text-[var(--muted)]">{settings.siteName}</p>
           <p className="mt-4 text-sm leading-relaxed text-[var(--muted)]">
             {settings.footerDescription}
@@ -38,7 +38,7 @@ export function Footer() {
         </div>
 
         <div>
-          <h3 className="mb-4 text-sm font-semibold tracking-wide text-white">Hızlı Bağlantılar</h3>
+          <h3 className="mb-4 text-xs tracking-[0.18em] text-white uppercase">Hızlı Bağlantılar</h3>
           <ul className="space-y-2">
             {NAV_ITEMS.map((item) => (
               <li key={item.href}>
@@ -51,7 +51,7 @@ export function Footer() {
         </div>
 
         <div>
-          <h3 className="mb-4 text-sm font-semibold tracking-wide text-white">Hizmetler</h3>
+          <h3 className="mb-4 text-xs tracking-[0.18em] text-white uppercase">Hizmetler</h3>
           <ul className="space-y-2">
             {activeServices.map((service) => (
               <li key={service.id}>
@@ -64,45 +64,35 @@ export function Footer() {
         </div>
 
         <div>
-          <h3 className="mb-4 text-sm font-semibold tracking-wide text-white">İletişim</h3>
+          <h3 className="mb-4 text-xs tracking-[0.18em] text-white uppercase">İletişim</h3>
           <ul className="space-y-3 text-sm text-[var(--muted)]">
             <li className="flex gap-2">
-              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--primary)]" />
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--accent)]" />
               <span>{contactInfo.address}</span>
             </li>
             <li className="flex gap-2">
-              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-[var(--primary)]" />
+              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-[var(--accent)]" />
               <a href="tel:+905321715043" className="hover:text-white">
                 {contactInfo.mobilePhone}
               </a>
             </li>
             <li className="flex gap-2">
-              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-[var(--primary)]" />
+              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-[var(--accent)]" />
               <a href="tel:+902128792991" className="hover:text-white">
                 {contactInfo.landlinePhone}
               </a>
             </li>
             <li className="flex gap-2">
-              <Mail className="mt-0.5 h-4 w-4 shrink-0 text-[var(--primary)]" />
+              <Mail className="mt-0.5 h-4 w-4 shrink-0 text-[var(--accent)]" />
               <a href={`mailto:${contactInfo.email}`} className="hover:text-white">
                 {contactInfo.email}
-              </a>
-            </li>
-            <li>
-              <a
-                href={contactInfo.whatsappUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex text-[var(--primary)] hover:underline"
-              >
-                WhatsApp ile yazın
               </a>
             </li>
           </ul>
         </div>
       </div>
 
-      <div className="border-t border-[var(--border)] px-5 py-6 text-center text-sm text-[var(--muted)] md:px-8">
+      <div className="border-t border-[var(--line)] px-5 py-6 text-center text-sm text-[var(--muted)] md:px-8">
         © {year} {settings.copyrightText}
       </div>
     </footer>
@@ -124,7 +114,7 @@ function SocialLink({
       target="_blank"
       rel="noreferrer"
       aria-label={label}
-      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] text-[var(--muted)] hover:border-white/30 hover:text-white"
+      className="inline-flex h-10 w-10 items-center justify-center border border-[var(--line)] text-[var(--muted)] hover:border-white/40 hover:text-white"
     >
       {children}
     </a>

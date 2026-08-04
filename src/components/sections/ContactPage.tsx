@@ -1,6 +1,6 @@
 "use client";
 
-import { PageHero } from "@/components/layout/PageHero";
+import { PageIntro } from "@/components/layout/PageIntro";
 import { PrimaryButton, SecondaryButton } from "@/components/ui/Button";
 import { Input, Select, Textarea } from "@/components/ui/FormFields";
 import { useToast } from "@/components/ui/Toast";
@@ -82,13 +82,18 @@ export function ContactPage() {
 
   return (
     <>
-      <PageHero
-        title="İletişim"
-        subtitle="Projenizi konuşmak, keşif görüşmesi planlamak veya teklif almak için bize ulaşın."
+      <PageIntro
+        number="06"
+        label="İLETİŞİM"
+        title="Projenizi konuşmak, keşif görüşmesi planlamak veya teklif almak için bize ulaşın."
+        description="Markanız için doğru konsepti, doğru sahneyi ve doğru deneyimi birlikte kuralım."
       />
 
       <section className="mx-auto grid max-w-7xl gap-10 px-5 pb-24 lg:grid-cols-[0.9fr_1.1fr] md:px-8">
-        <div className="space-y-6">
+        <div className="space-y-4">
+          <p className="text-xs tracking-[0.2em] text-[var(--muted)] uppercase">
+            Prodüksiyon · İletişim
+          </p>
           <InfoRow icon={<MapPin className="h-5 w-5" />} label="Adres" value={contactInfo.address} />
           <InfoRow
             icon={<Phone className="h-5 w-5" />}
@@ -114,7 +119,7 @@ export function ContactPage() {
             value={contactInfo.workingHours}
           />
 
-          <div className="flex flex-wrap gap-3 pt-1">
+          <div className="flex flex-wrap gap-3 pt-2">
             <PrimaryButton href="tel:+905321715043" size="sm">
               Ara
             </PrimaryButton>
@@ -138,13 +143,14 @@ export function ContactPage() {
             </Social>
           </div>
 
-          <div className="mt-8 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)]">
-            <div className="flex aspect-[16/10] items-center justify-center bg-gradient-to-br from-[var(--primary)]/20 to-[var(--secondary)]/20">
+          <div className="mt-8 overflow-hidden border border-[var(--line)] bg-[var(--surface)]">
+            <div className="relative flex aspect-[16/10] items-center justify-center line-grid">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(239,73,56,0.12),transparent_55%)]" />
               <a
                 href={contactInfo.mapUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-full border border-[var(--border)] bg-black/30 px-5 py-2 text-sm backdrop-blur hover:bg-black/50"
+                className="relative z-10 border border-[var(--line-strong)] bg-black/40 px-5 py-2 text-sm backdrop-blur transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
               >
                 Haritada Görüntüle
               </a>
@@ -154,10 +160,20 @@ export function ContactPage() {
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="rounded-3xl border border-[var(--border)] bg-[var(--surface)]/80 p-6 md:p-8"
+          className="border border-[var(--line)] bg-[var(--surface)]/90 p-6 md:p-8"
           noValidate
         >
-          <h2 className="font-display mb-6 text-2xl font-semibold">Mesaj Gönderin</h2>
+          <div className="mb-6 flex items-end justify-between gap-4">
+            <div>
+              <p className="section-label">Proje Talebi</p>
+              <h2 className="font-display mt-2 text-2xl font-semibold md:text-3xl">
+                Mesaj Gönderin
+              </h2>
+            </div>
+            <span className="hidden text-xs tabular-nums text-[var(--muted)] sm:block">
+              01 / FORM
+            </span>
+          </div>
           <div className="grid gap-4 md:grid-cols-2">
             <Input label="Ad Soyad" error={errors.fullName?.message} {...register("fullName")} />
             <Input
@@ -189,7 +205,7 @@ export function ContactPage() {
             <Textarea label="Mesaj" error={errors.message?.message} {...register("message")} />
           </div>
           <label className="mt-4 flex items-start gap-3 text-sm text-[var(--muted)]">
-            <input type="checkbox" className="mt-1" {...register("kvkkAccepted")} />
+            <input type="checkbox" className="mt-1 accent-[var(--accent)]" {...register("kvkkAccepted")} />
             <span>
               KVKK ve gizlilik politikasını okudum, kişisel verilerimin iletişim amacıyla
               işlenmesini onaylıyorum.
@@ -221,16 +237,16 @@ function InfoRow({
   href?: string;
 }) {
   return (
-    <div className="flex gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
-      <div className="text-[var(--primary)]">{icon}</div>
+    <div className="flex gap-4 border border-[var(--line)] bg-[var(--surface)] p-4">
+      <div className="text-[var(--accent)]">{icon}</div>
       <div>
         <p className="text-xs tracking-wide text-[var(--muted)] uppercase">{label}</p>
         {href ? (
-          <a href={href} className="mt-1 block text-white hover:underline">
+          <a href={href} className="mt-1 block text-[var(--foreground)] hover:text-[var(--accent)]">
             {value}
           </a>
         ) : (
-          <p className="mt-1 text-white">{value}</p>
+          <p className="mt-1 text-[var(--foreground)]">{value}</p>
         )}
       </div>
     </div>
@@ -252,7 +268,7 @@ function Social({
       target="_blank"
       rel="noreferrer"
       aria-label={label}
-      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] text-[var(--muted)] hover:text-white"
+      className="inline-flex h-10 w-10 items-center justify-center border border-[var(--line)] text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
     >
       {children}
     </a>

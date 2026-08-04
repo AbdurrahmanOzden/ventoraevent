@@ -4,6 +4,7 @@ import { menuItem, menuOverlay, menuPanel } from "@/lib/animations";
 import { NAV_ITEMS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { useEscapeKey, useLockedBody, useReducedMotion } from "@/hooks/use-ui";
+import { useSiteContent } from "@/hooks/use-site-content";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -19,6 +20,7 @@ interface SideMenuProps {
 
 export function SideMenu({ open, onClose, logoText, tagline }: SideMenuProps) {
   const pathname = usePathname();
+  const { content } = useSiteContent();
   const closeRef = useRef<HTMLButtonElement>(null);
   const reduced = useReducedMotion();
   useLockedBody(open);
@@ -35,7 +37,7 @@ export function SideMenu({ open, onClose, logoText, tagline }: SideMenuProps) {
           <motion.button
             type="button"
             aria-label="Menüyü kapat"
-            className="absolute inset-0 bg-black/60 backdrop-blur-md"
+            className="absolute inset-0 bg-black/75 backdrop-blur-md"
             variants={reduced ? undefined : menuOverlay}
             initial="hidden"
             animate="visible"
@@ -46,88 +48,96 @@ export function SideMenu({ open, onClose, logoText, tagline }: SideMenuProps) {
             role="dialog"
             aria-modal="true"
             aria-label="Ana menü"
-            className="absolute inset-y-0 right-0 flex w-full max-w-xl flex-col border-l border-[var(--border)] bg-[var(--background)] px-8 py-8 md:px-14"
+            className="absolute inset-0 flex flex-col bg-[var(--background)] md:inset-y-0 md:right-0 md:left-auto md:w-[min(100%,720px)] md:border-l md:border-[var(--line)]"
             variants={reduced ? undefined : menuPanel}
             initial="hidden"
             animate="visible"
             exit="exit"
           >
-            <div className="mb-12 flex items-start justify-between">
+            <div className="flex items-start justify-between border-b border-[var(--line)] px-6 py-6 md:px-10">
               <div>
-                <p className="font-display text-2xl font-bold">{logoText}</p>
-                <p className="mt-2 max-w-xs text-sm text-[var(--muted)]">{tagline}</p>
+                <p className="font-display text-2xl font-semibold">{logoText}</p>
+                <p className="mt-2 max-w-sm text-sm text-[var(--muted)]">{tagline}</p>
               </div>
               <button
                 ref={closeRef}
                 type="button"
                 onClick={onClose}
                 aria-label="Menüyü kapat"
-                className="rounded-full border border-[var(--border)] p-3 text-white hover:bg-white/5"
+                className="border border-[var(--line)] p-3 hover:border-white"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
-            <ul className="flex flex-1 flex-col gap-2">
-              {NAV_ITEMS.map((item, index) => {
-                const active = pathname === item.href;
-                return (
-                  <motion.li
-                    key={item.href}
-                    custom={index}
-                    variants={reduced ? undefined : menuItem}
-                    initial="hidden"
-                    animate="visible"
-                  >
-                    <Link
-                      href={item.href}
-                      onClick={onClose}
-                      className={cn(
-                        "group flex items-center justify-between border-b border-white/5 py-4 font-display text-3xl font-semibold tracking-tight transition-colors md:text-5xl",
-                        active ? "text-white" : "text-white/55 hover:text-white"
-                      )}
-                      aria-current={active ? "page" : undefined}
+            <div className="grid flex-1 gap-8 overflow-y-auto px-6 py-8 md:grid-cols-[1.1fr_0.9fr] md:px-10">
+              <ul className="space-y-1">
+                {NAV_ITEMS.map((item, index) => {
+                  const active = pathname === item.href;
+                  return (
+                    <motion.li
+                      key={item.href}
+                      custom={index}
+                      variants={reduced ? undefined : menuItem}
+                      initial="hidden"
+                      animate="visible"
                     >
-                      <span className="relative">
-                        {item.label}
+                      <Link
+                        href={item.href}
+                        onClick={onClose}
+                        aria-current={active ? "page" : undefined}
+                        className={cn(
+                          "group flex items-baseline gap-4 border-b border-white/5 py-4 transition",
+                          active ? "text-white" : "text-white/55 hover:text-white"
+                        )}
+                      >
+                        <span className="text-xs tabular-nums text-[var(--muted)]">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span className="font-display text-3xl font-semibold tracking-tight md:text-4xl">
+                          {item.label}
+                        </span>
                         <span
                           className={cn(
-                            "absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] transition-all duration-300",
-                            active ? "w-full" : "w-0 group-hover:w-full"
+                            "ml-auto h-px bg-[var(--accent)] transition-all",
+                            active ? "w-10" : "w-0 group-hover:w-8"
                           )}
                         />
-                      </span>
-                      <span className="text-sm text-[var(--muted)]">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                    </Link>
-                  </motion.li>
-                );
-              })}
-            </ul>
+                      </Link>
+                    </motion.li>
+                  );
+                })}
+              </ul>
 
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                href="/iletisim"
-                onClick={onClose}
-                className="inline-flex rounded-full bg-[var(--primary)] px-6 py-3 text-sm font-medium text-white shadow-[0_0_24px_var(--glow-primary)]"
-              >
-                Teklif Al
-              </Link>
-              <a
-                href="tel:+905321715043"
-                className="inline-flex rounded-full border border-[var(--border)] px-5 py-3 text-sm text-white hover:bg-white/5"
-              >
-                Ara
-              </a>
-              <a
-                href="https://wa.me/905321715043"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex rounded-full border border-[var(--border)] px-5 py-3 text-sm text-white hover:bg-white/5"
-              >
-                WhatsApp
-              </a>
+              <div className="flex flex-col justify-between border border-[var(--line)] bg-[var(--surface)] p-6">
+                <div>
+                  <p className="text-xs tracking-[0.2em] text-[var(--accent)] uppercase">
+                    İletişim
+                  </p>
+                  <p className="mt-4 text-sm leading-relaxed text-[var(--muted)]">
+                    {content.contactInfo.address}
+                  </p>
+                  <a
+                    href="tel:+905321715043"
+                    className="mt-4 block text-white hover:text-[var(--accent)]"
+                  >
+                    {content.contactInfo.mobilePhone}
+                  </a>
+                  <a
+                    href={`mailto:${content.contactInfo.email}`}
+                    className="mt-2 block text-white hover:text-[var(--accent)]"
+                  >
+                    {content.contactInfo.email}
+                  </a>
+                </div>
+                <Link
+                  href="/iletisim"
+                  onClick={onClose}
+                  className="mt-8 inline-flex bg-[var(--accent)] px-5 py-3 text-sm font-medium text-white"
+                >
+                  Teklif Al
+                </Link>
+              </div>
             </div>
           </motion.nav>
         </div>

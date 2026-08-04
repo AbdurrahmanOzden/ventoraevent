@@ -32,6 +32,12 @@ export interface ServiceFeature {
   text: string;
 }
 
+export type ServiceLayoutVariant =
+  | "split"
+  | "full-image"
+  | "editorial"
+  | "collage";
+
 export interface ServiceItem {
   id: string;
   title: string;
@@ -42,6 +48,11 @@ export interface ServiceItem {
   buttonText: string;
   active: boolean;
   sortOrder: number;
+  /** Optional display fields — normalized for older LocalStorage payloads */
+  eyebrow?: string;
+  accentLabel?: string;
+  featured?: boolean;
+  layoutVariant?: ServiceLayoutVariant;
 }
 
 export interface ReferenceItem {
