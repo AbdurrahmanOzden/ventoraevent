@@ -6,12 +6,12 @@ import { Counter } from "@/components/ui/Counter";
 import { ReferenceCard, ServiceCard, ValueCard } from "@/components/ui/Cards";
 import { ContactCta } from "@/components/sections/ContactCta";
 import { SectionTitle } from "@/components/animations/TextEffects";
+import { EventPulseBackground } from "@/components/effects/EventPulseBackground";
 import { fadeUp, staggerContainer } from "@/lib/animations";
 import { useSiteContent } from "@/hooks/use-site-content";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
 
 export function HomePage() {
   const { content } = useSiteContent();
@@ -167,36 +167,10 @@ export function HomePage() {
 function HeroSection() {
   const { content } = useSiteContent();
   const { home } = content;
-  const ref = useRef<HTMLElement>(null);
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const springX = useSpring(mx, { stiffness: 50, damping: 20 });
-  const springY = useSpring(my, { stiffness: 50, damping: 20 });
-
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-    const onMove = (event: MouseEvent) => {
-      const rect = node.getBoundingClientRect();
-      mx.set(((event.clientX - rect.left) / rect.width - 0.5) * 40);
-      my.set(((event.clientY - rect.top) / rect.height - 0.5) * 40);
-    };
-    node.addEventListener("mousemove", onMove);
-    return () => node.removeEventListener("mousemove", onMove);
-  }, [mx, my]);
 
   return (
-    <section
-      ref={ref}
-      className="relative flex min-h-screen items-center overflow-hidden pt-28 pb-16"
-    >
-      <div className="absolute inset-0 grid-texture opacity-50" />
-      <div className="glow-orb -left-20 top-20 h-96 w-96 bg-[var(--primary)]/30" />
-      <div className="glow-orb right-0 bottom-10 h-[28rem] w-[28rem] bg-[var(--secondary)]/25" />
-      <motion.div
-        style={{ x: springX, y: springY }}
-        className="pointer-events-none absolute top-1/3 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-[var(--primary)]/20 blur-3xl"
-      />
+    <section className="relative flex min-h-screen items-center overflow-hidden pt-28 pb-16">
+      <EventPulseBackground />
 
       <div className="relative z-10 mx-auto max-w-7xl px-5 md:px-8">
         <motion.p
@@ -227,7 +201,7 @@ function HeroSection() {
 
       <a
         href="#content-start"
-        className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-xs tracking-widest text-[var(--muted)] uppercase"
+        className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 text-xs tracking-widest text-[var(--muted)] uppercase"
         aria-label="Aşağı kaydır"
       >
         Kaydır
