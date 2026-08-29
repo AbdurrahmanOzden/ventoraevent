@@ -46,6 +46,7 @@ export function normalizeService(
     galleryUrls: Array.isArray(service.galleryUrls)
       ? service.galleryUrls.filter((url) => typeof url === "string" && url.length > 0)
       : [],
+    imageFit: service.imageFit === "contain" ? "contain" : "cover",
   };
 }
 

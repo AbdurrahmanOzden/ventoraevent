@@ -2,31 +2,20 @@
 
 import { CinematicHero } from "@/components/home/CinematicHero";
 import { Counter } from "@/components/ui/Counter";
-import { ReferenceCard } from "@/components/ui/Cards";
-import { PrimaryButton, SecondaryButton } from "@/components/ui/Button";
+import { PrimaryButton } from "@/components/ui/Button";
 import { HorizontalServiceJourney } from "@/components/services/HorizontalServiceJourney";
 import { useSiteContent } from "@/hooks/use-site-content";
 import Link from "next/link";
 
 export function HomePage() {
   const { content } = useSiteContent();
-  const { home, services, references, clientLogos } = content;
+  const { home, services } = content;
 
   const activeServices = services
     .filter((s) => s.active)
     .sort((a, b) => a.sortOrder - b.sortOrder);
   const featuredMarked = activeServices.filter((s) => s.featured);
-  const featuredServices = (featuredMarked.length > 0 ? featuredMarked : activeServices);
-
-  const featuredProjects = references
-    .filter((r) => r.active)
-    .filter(
-      (r) =>
-        r.projectTitle !== "Yıllık Liderlik Zirvesi 2025" &&
-        r.projectTitle !== "Gala ve Ödül Töreni"
-    )
-    .sort((a, b) => a.sortOrder - b.sortOrder)
-    .slice(0, 4);
+  const featuredServices = featuredMarked.length > 0 ? featuredMarked : activeServices;
 
   return (
     <>
@@ -60,35 +49,6 @@ export function HomePage() {
         introSubtitle="Seçili hizmetlerimizi kaydırarak keşfedin."
       />
 
-      <section className="mx-auto max-w-7xl px-5 py-24 md:px-8">
-        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="section-label">04 / Projeler</p>
-            <h2 className="font-display mt-3 text-3xl font-semibold md:text-5xl">
-              {home.projectsSectionTitle}
-            </h2>
-          </div>
-          <SecondaryButton href="/referanslar">Tüm Referanslar</SecondaryButton>
-        </div>
-
-        <div className="grid gap-5 md:grid-cols-12">
-          {featuredProjects.map((project, index) => (
-            <div
-              key={project.id}
-              className={
-                index === 0
-                  ? "md:col-span-7"
-                  : index === 1
-                    ? "md:col-span-5"
-                    : "md:col-span-6"
-              }
-            >
-              <ReferenceCard {...project} />
-            </div>
-          ))}
-        </div>
-      </section>
-
       <section className="border-y border-[var(--line)] bg-[var(--background-soft)]/75 py-20 backdrop-blur-[2px]">
         <div className="mx-auto grid max-w-7xl grid-cols-2 gap-10 px-5 md:grid-cols-4 md:px-8">
           {home.statistics.map((stat) => (
@@ -98,23 +58,6 @@ export function HomePage() {
               suffix={stat.suffix}
               label={stat.label}
             />
-          ))}
-        </div>
-      </section>
-
-      <section className="overflow-hidden py-16">
-        <p className="mb-8 text-center text-xs tracking-[0.22em] text-[var(--muted)] uppercase">
-          Güvenilen Markalar
-        </p>
-        <div className="marquee-track gap-4 px-4">
-          {[...clientLogos, ...clientLogos].map((logo, index) => (
-            <div
-              key={`${logo.id}-${index}`}
-              className="mx-2 flex h-16 w-40 shrink-0 items-center justify-center border border-[var(--line)] bg-[var(--surface)] px-3"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={logo.logoUrl} alt={logo.name} className="max-h-8 max-w-full opacity-70" />
-            </div>
           ))}
         </div>
       </section>

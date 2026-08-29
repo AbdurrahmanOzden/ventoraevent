@@ -22,7 +22,7 @@ export function ServicePanel({ service, index, active, total }: ServicePanelProp
   return (
     <article
       className={cn(
-        "service-panel group relative mx-3 overflow-hidden border border-[var(--line)] bg-[var(--surface)] transition-[opacity,filter] duration-700 md:mx-4",
+        "service-panel group relative mx-0 overflow-hidden border border-[var(--line)] bg-[var(--surface)] transition-[opacity,filter] duration-700 lg:mx-4",
         active ? "opacity-100" : "opacity-45 md:opacity-40"
       )}
       aria-current={active ? "true" : undefined}
@@ -86,7 +86,7 @@ function SplitLayout({
         <PanelMeta number={number} total={total} eyebrow={service.eyebrow} />
         <PanelCopy service={service} capabilities={capabilities} active={active} compact />
       </div>
-      <PanelMedia service={service} active={active} className="min-h-0 lg:min-h-0" />
+      <PanelMedia service={service} active={active} className="min-h-[220px] lg:min-h-0" />
     </div>
   );
 }
@@ -105,8 +105,8 @@ function FullImageLayout({
   active: boolean;
 }) {
   return (
-    <div className="relative z-[1] h-full">
-      <PanelMedia service={service} active={active} className="absolute inset-0" />
+    <div className="relative z-[1] min-h-[280px] h-full">
+      <PanelMedia service={service} active={active} className="absolute inset-0 min-h-[280px] lg:min-h-0" />
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-black/20" />
       <div className="relative z-[1] flex h-full flex-col justify-between overflow-y-auto p-5 md:p-7">
         <PanelMeta number={number} total={total} eyebrow={service.eyebrow} />
@@ -138,7 +138,7 @@ function EditorialLayout({
         </p>
       </div>
       <div className="grid min-h-0 flex-1 lg:grid-cols-[1.1fr_0.9fr]">
-        <PanelMedia service={service} active={active} className="min-h-0" />
+        <PanelMedia service={service} active={active} className="min-h-[200px] lg:min-h-0" />
         <div className="flex min-h-0 flex-col justify-start overflow-y-auto p-5 md:p-6">
           <PanelCopy service={service} capabilities={capabilities} active={active} compact />
         </div>
@@ -167,7 +167,7 @@ function CollageLayout({
         <PanelCopy service={service} capabilities={capabilities} active={active} compact />
       </div>
       <div className="grid min-h-0">
-        <PanelMedia service={service} active={active} className="min-h-0 h-full" />
+        <PanelMedia service={service} active={active} className="h-full min-h-[200px] lg:min-h-0" />
       </div>
     </div>
   );
@@ -267,12 +267,24 @@ function isVideoUrl(url: string) {
   return /\.(mp4|webm|ogg)(\?.*)?$/i.test(url);
 }
 
-function MediaFill({ url, alt, className }: { url: string; alt: string; className?: string }) {
+function MediaFill({
+  url,
+  alt,
+  className,
+  fit = "cover",
+}: {
+  url: string;
+  alt: string;
+  className?: string;
+  fit?: "cover" | "contain";
+}) {
+  const fitClass = fit === "contain" ? "object-contain" : "object-cover";
+
   if (isVideoUrl(url)) {
     return (
       <video
         src={url}
-        className={cn("h-full w-full object-cover", className)}
+        className={cn("absolute inset-0 h-full w-full", fitClass, className)}
         autoPlay
         muted
         loop
@@ -289,7 +301,7 @@ function MediaFill({ url, alt, className }: { url: string; alt: string; classNam
       alt={alt}
       fill
       sizes="(max-width: 768px) 100vw, 50vw"
-      className={cn("object-cover", className)}
+      className={cn(fitClass, className)}
       unoptimized={
         url.endsWith(".svg") || /\.(jpe?g|png|webp)(\?.*)?$/i.test(url)
       }
@@ -314,33 +326,34 @@ function PanelMedia({
   const [stripOpen, setStripOpen] = useState(false);
   const mainUrl = hovered || urls[0];
   const hasGallery = urls.length > 1;
+  const fit = service.imageFit === "contain" ? "contain" : "cover";
 
   return (
     <div
-      className={cn("relative flex min-h-0 flex-col overflow-hidden bg-[var(--background-soft)]", className)}
+      className={cn("relative flex min-h-[200px] flex-col overflow-hidden bg-[var(--background-soft)] lg:min-h-0", className)}
       onMouseEnter={() => setStripOpen(true)}
       onMouseLeave={() => {
         setStripOpen(false);
         setHovered(null);
       }}
     >
-      <div className="relative min-h-0 flex-1 overflow-hidden">
+      <div className="relative min-h-[200px] flex-1 overflow-hidden lg:min-h-0">
         <motion.div
           animate={{
-            scale: active ? 1 : 1.05,
+            scale: fit === "contain" ? 1 : active ? 1 : 1.05,
             filter: active ? "grayscale(0.15) contrast(1.05)" : "grayscale(0.75) contrast(0.95)",
           }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0"
         >
           {mainUrl ? (
-            <MediaFill url={mainUrl} alt={`${service.title} hizmet görseli`} />
+            <MediaFill url={mainUrl} alt={`${service.title} hizmet görseli`} fit={fit} />
           ) : null}
         </motion.div>
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
         {hovered ? (
           <div className="pointer-events-none absolute inset-4 z-20 overflow-hidden border border-white/30 bg-black/50 shadow-2xl md:inset-8">
-            <MediaFill url={hovered} alt="" />
+            <MediaFill url={hovered} alt="" fit={fit} />
           </div>
         ) : null}
       </div>

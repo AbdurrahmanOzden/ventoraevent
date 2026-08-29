@@ -243,7 +243,7 @@ export function ServiceMobileList({
   introSubtitle: string;
 }) {
   return (
-    <section className="bg-[var(--background)] px-5 py-20 md:px-8">
+    <section className="bg-[var(--background)] px-4 py-12 md:px-8 md:py-20">
       <div className="mx-auto max-w-5xl">
         <p className="section-label">03 / Hizmetler</p>
         <h2 className="font-display mt-3 text-3xl font-semibold md:text-5xl">{introTitle}</h2>
@@ -251,7 +251,7 @@ export function ServiceMobileList({
         <p className="mt-6 text-xs tabular-nums tracking-[0.18em] text-[var(--muted)] uppercase">
           {String(services.length).padStart(2, "0")} hizmet
         </p>
-        <div className="mt-10 space-y-6">
+        <div className="mt-8 space-y-4 md:mt-10 md:space-y-6">
           {services.map((service, index) => (
             <div key={service.id} className="relative">
               <div className="mb-3 flex items-center justify-between text-xs text-[var(--muted)]">

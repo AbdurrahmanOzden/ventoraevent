@@ -13,7 +13,8 @@ export const defaultSiteContent: SiteContent = {
     seoTitle: "Ventora Event | Etkinlik ve Organizasyon",
     seoDescription:
       "Kurumsal etkinliklerden marka lansmanlarına, festival ve özel davetlerden teknik prodüksiyona kadar uçtan uca etkinlik çözümleri.",
-    copyrightText: "Ventora Event. Tüm hakları saklıdır.",
+    copyrightText:
+      "Ventora Event, Tatil Travel & The Best Adventure Travel Markasıdır. Tüm hakları saklıdır.",
     instagram: "https://instagram.com/ventoraevent",
     linkedin: "https://linkedin.com/company/ventoraevent",
     youtube: "https://youtube.com/@ventoraevent",
@@ -231,6 +232,7 @@ export const defaultSiteContent: SiteContent = {
       detailedDescription:
         "Uluslararası destinasyonlarda grup organizasyonlarını; uçuş, vize, konaklama ve saha akışını tek operasyonda birleştirerek yönetiyoruz.",
       imageUrl: "/images/services/yurtdisi-org.jpg",
+      imageFit: "contain",
       features: [
         { id: "f37", text: "Destinasyon ve program kurgusu" },
         { id: "f38", text: "Uçuş ve vize koordinasyonu" },

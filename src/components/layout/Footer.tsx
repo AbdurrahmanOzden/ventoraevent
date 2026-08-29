@@ -92,8 +92,40 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-[var(--line)] px-5 py-6 text-center text-sm text-[var(--muted)] md:px-8">
-        © {year} {settings.copyrightText}
+      <div className="border-t border-[var(--line)] px-5 py-6 md:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-5 md:flex-row md:items-center md:justify-between">
+          <div className="flex w-full justify-center md:w-auto md:justify-start">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/company/logo-1.png"
+              alt="Ventora Event"
+              className="h-[7.5rem] w-auto max-w-[27rem] object-contain md:h-[8.25rem]"
+            />
+          </div>
+          <p className="max-w-xl text-center text-xs leading-relaxed text-[var(--muted)] md:text-sm">
+            © {year} {settings.copyrightText}
+          </p>
+          <div className="flex w-full items-center justify-center gap-6 md:w-auto md:justify-end md:gap-8">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/company/logo-2.png"
+              alt="Tatil Travel"
+              className="h-[7.5rem] w-auto max-w-[24rem] object-contain md:h-[8.25rem]"
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/company/logo-3.png"
+              alt="The Best Adventure"
+              className="h-[7.5rem] w-auto max-w-[24rem] object-contain md:h-[8.25rem]"
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/company/logo-4.png"
+              alt="Grup logosu"
+              className="h-[7.5rem] w-auto max-w-[24rem] object-contain md:h-[8.25rem]"
+            />
+          </div>
+        </div>
       </div>
     </footer>
   );

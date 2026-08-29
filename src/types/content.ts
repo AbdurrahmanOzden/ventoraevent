@@ -44,6 +44,7 @@ export interface ServiceItem {
   featured?: boolean;
   layoutVariant?: ServiceLayoutVariant;
   galleryUrls?: string[];
+  imageFit?: "cover" | "contain";
 }
 
 export interface ReferenceItem {

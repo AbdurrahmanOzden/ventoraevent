@@ -40,7 +40,7 @@ export function ReferencesPage() {
     <>
       <PageIntro number="04" label="REFERANSLAR" title="Markalar." />
 
-      <section className="px-0 pb-28">
+      <section className="px-0 pb-16 md:pb-28">
         <div className="brand-marquee" aria-label="Referans markalar">
           <LogoRow logos={topRow} duration="48s" />
           <div className="h-px bg-black/10" />

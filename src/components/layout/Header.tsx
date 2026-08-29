@@ -33,16 +33,16 @@ export function Header() {
     <>
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 transition-all duration-300",
+          "relative fixed inset-x-0 top-0 z-50 transition-all duration-300",
           scrolled
             ? "border-b border-[var(--line)] bg-[var(--background)]/85 backdrop-blur-xl"
             : "bg-transparent"
         )}
       >
-        <div className="grid h-16 w-full grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 md:h-[4.5rem] md:px-5">
+        <div className="flex h-16 w-full items-center justify-between gap-2 pl-4 pr-[max(2px,env(safe-area-inset-right))] md:h-[4.5rem] md:px-4">
           <Link
             href="/"
-            className="relative z-[60] justify-self-start"
+            className="relative z-[60] shrink-0"
             onClick={(event) => {
               if (pathname === "/") {
                 event.preventDefault();
@@ -55,17 +55,19 @@ export function Header() {
             </span>
           </Link>
 
-          <div className="hidden text-center sm:block">
-            <p className="text-[0.68rem] tracking-[0.22em] text-[var(--muted)] uppercase">
-              {PAGE_LABELS[pathname] || content.settings.logoText}
-            </p>
-            <div className="mx-auto mt-2 h-px w-16 overflow-hidden bg-[var(--line)]">
-              <div className="h-full w-1/2 bg-[var(--accent)]" />
+          <div className="pointer-events-none absolute inset-x-0 hidden justify-center sm:flex">
+            <div className="pointer-events-none text-center">
+              <p className="text-[0.68rem] tracking-[0.22em] text-[var(--muted)] uppercase">
+                {PAGE_LABELS[pathname] || content.settings.logoText}
+              </p>
+              <div className="mx-auto mt-2 h-px w-16 overflow-hidden bg-[var(--line)]">
+                <div className="h-full w-1/2 bg-[var(--accent)]" />
+              </div>
             </div>
           </div>
 
-          <div className="flex items-center justify-end gap-3">
-            <PrimaryButton href="/iletisim" size="sm" className="hidden sm:inline-flex">
+          <div className="relative z-[61] ml-auto flex shrink-0 items-center justify-end gap-1.5">
+            <PrimaryButton href="/iletisim" size="sm" className="px-3 py-2 text-xs sm:px-4 sm:text-sm">
               Teklif Al
             </PrimaryButton>
             <button
@@ -73,7 +75,7 @@ export function Header() {
               aria-label="Menüyü aç"
               aria-expanded={open}
               onClick={() => setOpen(true)}
-              className="group flex h-10 w-10 items-center justify-center border border-[var(--line)] hover:border-[var(--foreground)]"
+              className="group mr-0 flex h-10 w-10 shrink-0 items-center justify-center border border-[var(--line)] hover:border-[var(--foreground)]"
             >
               <span className="flex w-4 flex-col gap-1.5">
                 <span className="h-px w-full bg-white transition group-hover:translate-x-0.5" />

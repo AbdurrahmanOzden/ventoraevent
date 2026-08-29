@@ -142,6 +142,8 @@ function migrateContent(stored: SiteContent): SiteContent {
       }
     : { ...defaults.settings, ...stored.settings };
 
+  settings.copyrightText = defaults.settings.copyrightText;
+
   const aboutBase = looksLikeLegacyBrand
     ? {
         ...stored.about,
