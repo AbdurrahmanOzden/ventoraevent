@@ -3,12 +3,10 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Referanslar",
-  description:
-    "Ventora Event’in markalar ve kurumlarla hayata geçirdiği seçili etkinlik ve prodüksiyon projeleri.",
+  description: "Ventora Event’in birlikte çalıştığı markalar.",
   openGraph: {
     title: "Referanslar | Ventora Event",
-    description:
-      "Ventora Event’in markalar ve kurumlarla hayata geçirdiği seçili etkinlik ve prodüksiyon projeleri.",
+    description: "Ventora Event’in birlikte çalıştığı markalar.",
   },
 };
 
