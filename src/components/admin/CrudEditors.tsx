@@ -33,6 +33,7 @@ export function ServicesEditor() {
     accentLabel: "",
     featured: false,
     layoutVariant: "split",
+    galleryUrls: [],
   });
 
   return (

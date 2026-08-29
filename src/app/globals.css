@@ -382,8 +382,8 @@ h4,
 
 .service-panel {
   position: relative;
-  flex: 0 0 min(88vw, 920px);
-  height: min(78vh, 780px);
+  flex: 0 0 min(82vw, 860px);
+  height: 100%;
 }
 
 @media (max-width: 1024px) {

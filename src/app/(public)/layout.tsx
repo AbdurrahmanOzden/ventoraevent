@@ -8,8 +8,8 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <GlobalBackground />
+      <Header />
       <div className="relative z-10 flex min-h-screen flex-col">
-        <Header />
         <main className="min-h-screen flex-1">{children}</main>
         <Footer />
         <FloatingWhatsApp />

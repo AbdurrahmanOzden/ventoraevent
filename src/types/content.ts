@@ -43,6 +43,7 @@ export interface ServiceItem {
   accentLabel?: string;
   featured?: boolean;
   layoutVariant?: ServiceLayoutVariant;
+  galleryUrls?: string[];
 }
 
 export interface ReferenceItem {

@@ -56,7 +56,7 @@ export const defaultSiteContent: SiteContent = {
       { id: "s1", value: 150, suffix: "+", label: "Tamamlanan Etkinlik" },
       { id: "s2", value: 75, suffix: "+", label: "Marka İş Birliği" },
       { id: "s3", value: 50000, suffix: "+", label: "Katılımcı" },
-      { id: "s4", value: 10, suffix: "+", label: "Yıllık Deneyim" },
+      { id: "s4", value: 15, suffix: "+", label: "Yıllık Deneyim" },
     ],
     contactCtaTitle: "Bir sonraki etkinliğinizi birlikte tasarlayalım.",
     contactCtaDescription:
@@ -83,7 +83,7 @@ export const defaultSiteContent: SiteContent = {
       { id: "as1", value: 150, suffix: "+", label: "Tamamlanan Etkinlik" },
       { id: "as2", value: 75, suffix: "+", label: "Marka İş Birliği" },
       { id: "as3", value: 40, suffix: "+", label: "Uzman Ekip Üyesi" },
-      { id: "as4", value: 10, suffix: "+", label: "Yıllık Deneyim" },
+      { id: "as4", value: 15, suffix: "+", label: "Yıllık Deneyim" },
     ],
     ctaTitle: "Hikâyenizi birlikte yazalım.",
     ctaDescription:
@@ -201,6 +201,116 @@ export const defaultSiteContent: SiteContent = {
       eyebrow: "M.I.C.E",
       featured: true,
       layoutVariant: "editorial",
+    },
+    {
+      id: "svc9",
+      title: "Yurt İçi Organizasyonları",
+      shortDescription:
+        "Türkiye genelinde kurumsal ve özel grup organizasyonları.",
+      detailedDescription:
+        "Şehir turlarından kurumsal ofsite’lara, grup gezilerinden özel programlara kadar yurt içi organizasyonları uçtan uca planlıyor ve sahada yönetiyoruz.",
+      imageUrl: "/images/services/yurtici-org.webp",
+      features: [
+        { id: "f33", text: "Rota ve program tasarımı" },
+        { id: "f34", text: "Grup ve rehber koordinasyonu" },
+        { id: "f35", text: "Konaklama ve transfer" },
+        { id: "f36", text: "Saha operasyonu" },
+      ],
+      buttonText: "Hizmeti İncele",
+      active: true,
+      sortOrder: 6,
+      eyebrow: "YURT İÇİ",
+      featured: true,
+      layoutVariant: "split",
+    },
+    {
+      id: "svc10",
+      title: "Yurt Dışı Organizasyonları",
+      shortDescription:
+        "Yurt dışı grup gezileri, incentive ve kurumsal programlar.",
+      detailedDescription:
+        "Uluslararası destinasyonlarda grup organizasyonlarını; uçuş, vize, konaklama ve saha akışını tek operasyonda birleştirerek yönetiyoruz.",
+      imageUrl: "/images/services/yurtdisi-org.jpg",
+      features: [
+        { id: "f37", text: "Destinasyon ve program kurgusu" },
+        { id: "f38", text: "Uçuş ve vize koordinasyonu" },
+        { id: "f39", text: "Yerel operasyon ve rehberlik" },
+        { id: "f40", text: "Incentive ve kurumsal geziler" },
+      ],
+      buttonText: "Hizmeti İncele",
+      active: true,
+      sortOrder: 7,
+      eyebrow: "YURT DIŞI",
+      featured: true,
+      layoutVariant: "editorial",
+    },
+    {
+      id: "svc11",
+      title: "Okul Eğitim Gezileri",
+      shortDescription:
+        "Okul ve üniversite grupları için eğitim, kültür ve keşif gezileri.",
+      detailedDescription:
+        "Müze, kampüs, bilim ve kültür rotalarını pedagojik akışla planlıyor; öğrenci güvenliği, öğretmen koordinasyonu ve aile bilgilendirmesini aynı titizlikle yürütüyoruz.",
+      imageUrl: "/images/services/egitim-1.jpg",
+      galleryUrls: ["/images/services/egitim-2.jpg"],
+      features: [
+        { id: "f41", text: "Eğitim odaklı rota tasarımı" },
+        { id: "f42", text: "Öğrenci güvenliği ve refakat" },
+        { id: "f43", text: "Rehber ve içerik planı" },
+        { id: "f44", text: "Ulaşım ve yemek organizasyonu" },
+      ],
+      buttonText: "Hizmeti İncele",
+      active: true,
+      sortOrder: 8,
+      eyebrow: "EĞİTİM",
+      featured: true,
+      layoutVariant: "collage",
+    },
+    {
+      id: "svc12",
+      title: "Konaklama, Transfer ve Vize Hizmetleri",
+      shortDescription:
+        "Otel, transfer ve vize süreçlerini tek çatı altında yönetiyoruz.",
+      detailedDescription:
+        "Grup ve kurumsal programlarda konaklama rezervasyonu, havalimanı–otel transferleri ve vize/pasaport süreçlerini aynı operasyonel ritimde koordine ediyoruz.",
+      imageUrl: "/images/services/hotel.jpg",
+      galleryUrls: [
+        "/images/services/transfer.webp",
+        "/images/services/vize-pasaport.png",
+      ],
+      features: [
+        { id: "f45", text: "Otel ve konaklama rezervasyonu" },
+        { id: "f46", text: "Havalimanı ve şehir transferi" },
+        { id: "f47", text: "Vize ve pasaport danışmanlığı" },
+        { id: "f48", text: "Grup lojistiği" },
+      ],
+      buttonText: "Hizmeti İncele",
+      active: true,
+      sortOrder: 9,
+      eyebrow: "LOJİSTİK",
+      featured: true,
+      layoutVariant: "split",
+    },
+    {
+      id: "svc13",
+      title: "Spor Kampları",
+      shortDescription:
+        "Takım kampları, hazırlık dönemi ve spor organizasyonları.",
+      detailedDescription:
+        "Antrenman sahası, konaklama, beslenme ve transferi sporun ritmine göre kurguluyor; kulüp ve okul takımları için kamp operasyonunu uçtan uca yönetiyoruz.",
+      imageUrl: "/images/services/spor.mp4",
+      features: [
+        { id: "f49", text: "Kamp programı ve tesis seçimi" },
+        { id: "f50", text: "Antrenman sahası koordinasyonu" },
+        { id: "f51", text: "Konaklama ve beslenme" },
+        { id: "f52", text: "Transfer ve saha lojistiği" },
+      ],
+      buttonText: "Hizmeti İncele",
+      active: true,
+      sortOrder: 10,
+      eyebrow: "SPOR",
+      featured: true,
+      layoutVariant: "split",
     },
   ],
   references: [

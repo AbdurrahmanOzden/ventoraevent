@@ -16,10 +16,7 @@ export function HomePage() {
     .filter((s) => s.active)
     .sort((a, b) => a.sortOrder - b.sortOrder);
   const featuredMarked = activeServices.filter((s) => s.featured);
-  const featuredServices = (featuredMarked.length > 0 ? featuredMarked : activeServices).slice(
-    0,
-    5
-  );
+  const featuredServices = (featuredMarked.length > 0 ? featuredMarked : activeServices);
 
   const featuredProjects = references
     .filter((r) => r.active)

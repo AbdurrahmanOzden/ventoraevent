@@ -43,6 +43,9 @@ export function normalizeService(
     accentLabel: service.accentLabel || "",
     featured: service.featured ?? index < 4,
     layoutVariant: layout,
+    galleryUrls: Array.isArray(service.galleryUrls)
+      ? service.galleryUrls.filter((url) => typeof url === "string" && url.length > 0)
+      : [],
   };
 }
 

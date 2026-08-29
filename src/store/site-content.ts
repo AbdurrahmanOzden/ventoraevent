@@ -57,6 +57,19 @@ const SERVICE_IMAGE_BY_ID: Record<string, string> = {
   svc4: "/images/services/ozel-davetler-2026.jpg",
   svc5: "/images/services/mezuniyet.png",
   svc6: "/images/services/mice-event.png",
+  svc9: "/images/services/yurtici-org.webp",
+  svc10: "/images/services/yurtdisi-org.jpg",
+  svc11: "/images/services/egitim-1.jpg",
+  svc12: "/images/services/hotel.jpg",
+  svc13: "/images/services/spor.mp4",
+};
+
+const SERVICE_GALLERY_BY_ID: Record<string, string[]> = {
+  svc11: ["/images/services/egitim-2.jpg"],
+  svc12: [
+    "/images/services/transfer.webp",
+    "/images/services/vize-pasaport.png",
+  ],
 };
 
 const REFERENCE_IMAGE_BY_ID: Record<string, string> = {
@@ -129,13 +142,20 @@ function migrateContent(stored: SiteContent): SiteContent {
       }
     : { ...defaults.settings, ...stored.settings };
 
-  const about = looksLikeLegacyBrand
+  const aboutBase = looksLikeLegacyBrand
     ? {
         ...stored.about,
         pageSubtitle: defaults.about.pageSubtitle,
         companyStory: defaults.about.companyStory,
       }
     : stored.about;
+
+  const about = {
+    ...aboutBase,
+    statistics: aboutBase.statistics.map((stat) =>
+      stat.label === "Yıllık Deneyim" ? { ...stat, value: 15 } : stat
+    ),
+  };
 
   const home = {
     ...stored.home,
@@ -144,11 +164,17 @@ function migrateContent(stored: SiteContent): SiteContent {
         ? { ...item, text: "ORGANİZASYON" }
         : item
     ),
+    statistics: stored.home.statistics.map((stat) =>
+      stat.label === "Yıllık Deneyim" ? { ...stat, value: 15 } : stat
+    ),
   };
 
   const mezuniyetService = defaults.services.find((service) => service.id === "svc5");
   const miceService = defaults.services.find((service) => service.id === "svc6");
   const mezuniyetReference = defaults.references.find((reference) => reference.id === "ref2");
+
+  const extraServiceIds = new Set(["svc9", "svc10", "svc11", "svc12", "svc13"]);
+  const extraServices = defaults.services.filter((service) => extraServiceIds.has(service.id));
 
   let services = stored.services
     .filter(
@@ -163,8 +189,19 @@ function migrateContent(stored: SiteContent): SiteContent {
       if (service.id === "svc6") {
         return miceService ? { ...miceService } : service;
       }
+      const extra =
+        extraServices.find((item) => item.id === service.id) ||
+        extraServices.find((item) => item.title === service.title);
+      if (extra) {
+        return { ...extra, id: service.id, sortOrder: service.sortOrder };
+      }
       const nextImage = SERVICE_IMAGE_BY_ID[service.id];
-      return nextImage ? { ...service, imageUrl: nextImage } : service;
+      const nextGallery = SERVICE_GALLERY_BY_ID[service.id];
+      return {
+        ...service,
+        imageUrl: nextImage || service.imageUrl,
+        galleryUrls: nextGallery ?? service.galleryUrls,
+      };
     });
 
   if (mezuniyetService && !services.some((service) => service.title === "Mezuniyet")) {
@@ -173,6 +210,12 @@ function migrateContent(stored: SiteContent): SiteContent {
 
   if (miceService && !services.some((service) => service.title === "M.I.C.E & EVENT")) {
     services = [...services, miceService];
+  }
+
+  for (const extra of extraServices) {
+    if (!services.some((service) => service.id === extra.id || service.title === extra.title)) {
+      services = [...services, extra];
+    }
   }
 
   services = services.map((service, index) => ({ ...service, sortOrder: index + 1 }));

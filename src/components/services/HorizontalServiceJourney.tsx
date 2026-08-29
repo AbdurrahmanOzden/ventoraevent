@@ -181,14 +181,14 @@ function DesktopJourney({
         <div className="absolute inset-0 line-grid opacity-30" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_35%,rgba(239,73,56,0.12),transparent_42%)]" />
 
-        <div className="relative z-10 mx-auto flex h-full max-w-[1600px] flex-col px-5 pt-28 pb-8 md:px-8">
-          <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+        <div className="relative z-10 mx-auto flex h-full max-w-[1600px] flex-col px-5 pt-24 pb-5 md:px-8">
+          <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
             <div>
               <p className="section-label">03 / Hizmetler</p>
-              <h2 className="font-display mt-3 max-w-3xl text-3xl font-semibold md:text-5xl">
+              <h2 className="font-display mt-2 max-w-3xl text-2xl font-semibold md:text-4xl">
                 {introTitle}
               </h2>
-              <p className="mt-3 max-w-xl text-[var(--muted)]">{introSubtitle}</p>
+              <p className="mt-2 max-w-xl text-sm text-[var(--muted)] md:text-base">{introSubtitle}</p>
             </div>
             <p
               className={`text-xs tracking-[0.2em] text-[var(--muted)] uppercase transition-opacity duration-500 ${
@@ -200,7 +200,7 @@ function DesktopJourney({
           </div>
 
           <div ref={viewportRef} className="relative min-h-0 flex-1 overflow-hidden">
-            <motion.div ref={trackRef} style={{ x }} className="service-track absolute top-0 left-0 h-[min(78vh,780px)] items-stretch">
+            <motion.div ref={trackRef} style={{ x }} className="service-track absolute inset-y-0 left-0 h-full items-stretch">
               {services.map((service, index) => (
                 <ServicePanel
                   key={service.id}
@@ -220,7 +220,7 @@ function DesktopJourney({
             />
           </div>
 
-          <div className="mt-auto flex items-center justify-between border-t border-[var(--line)] pt-4 text-xs text-[var(--muted)]">
+          <div className="flex items-center justify-between border-t border-[var(--line)] pt-3 text-xs text-[var(--muted)]">
             <span className="tabular-nums">
               {String(activeIndex + 1).padStart(2, "0")} /{" "}
               {String(services.length).padStart(2, "0")}

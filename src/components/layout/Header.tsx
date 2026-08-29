@@ -40,7 +40,16 @@ export function Header() {
         )}
       >
         <div className="grid h-16 w-full grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 md:h-[4.5rem] md:px-5">
-          <Link href="/" className="justify-self-start">
+          <Link
+            href="/"
+            className="relative z-[60] justify-self-start"
+            onClick={(event) => {
+              if (pathname === "/") {
+                event.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
+          >
             <span className="font-display text-lg font-semibold tracking-tight md:text-xl">
               {content.settings.logoText}
             </span>
