@@ -163,55 +163,96 @@ h4,
 
 .bg-fx__base {
   background:
-    radial-gradient(ellipse 80% 55% at 50% -10%, #141414 0%, transparent 55%),
-    linear-gradient(180deg, #090909 0%, #070707 45%, #050505 100%);
+    radial-gradient(ellipse 90% 62% at 48% -8%, #1c1c1c 0%, transparent 58%),
+    linear-gradient(180deg, #101010 0%, #0b0b0b 48%, #080808 100%);
 }
 
-.bg-fx__ambient {
-  background:
-    radial-gradient(ellipse 42% 34% at 8% 18%, rgba(239, 73, 56, calc(var(--bg-fx-ambient, 0.14) * 0.85)), transparent 70%),
-    radial-gradient(ellipse 38% 32% at 92% 78%, rgba(169, 45, 36, calc(var(--bg-fx-ambient, 0.14) * 0.7)), transparent 72%),
-    radial-gradient(ellipse 50% 40% at 70% 12%, rgba(196, 90, 58, calc(var(--bg-fx-ambient, 0.14) * 0.35)), transparent 68%);
+.bg-fx__depth {
+  transform: translate3d(var(--scene-px, 0px), var(--scene-py, 0px), 0);
+}
+
+.bg-fx__blob {
+  border-radius: 50%;
+  filter: blur(58px);
+  opacity: calc(var(--bg-fx-ambient, 0.62) * 1.15);
+  will-change: transform;
+}
+
+.bg-fx__blob--a {
+  width: 52vw;
+  height: 52vw;
+  top: -14%;
+  left: -12%;
+  background: radial-gradient(circle, rgba(148, 42, 54, 0.95) 0%, transparent 70%);
+  animation: bg-fx-drift-a 48s ease-in-out infinite;
+}
+
+.bg-fx__blob--b {
+  width: 46vw;
+  height: 46vw;
+  right: -14%;
+  bottom: -10%;
+  background: radial-gradient(circle, rgba(124, 92, 148, 0.82) 0%, transparent 72%);
+  animation: bg-fx-drift-b 56s ease-in-out infinite;
+}
+
+.bg-fx__blob--c {
+  width: 32vw;
+  height: 32vw;
+  top: 16%;
+  right: 16%;
+  background: radial-gradient(circle, rgba(210, 110, 68, 0.7) 0%, transparent 70%);
+  animation: bg-fx-drift-c 40s ease-in-out infinite;
+}
+
+.bg-fx__blob--d {
+  width: 22vw;
+  height: 22vw;
+  left: 26%;
+  bottom: 14%;
+  background: radial-gradient(circle, rgba(110, 168, 186, 0.55) 0%, transparent 70%);
+  animation: bg-fx-drift-d 64s ease-in-out infinite;
+}
+
+.bg-fx__geometry {
+  opacity: 0.9;
+}
+
+.bg-fx__spin-slow {
+  transform-origin: 210px 160px;
+  animation: bg-fx-spin 54s linear infinite;
+}
+
+.bg-fx__spin-slower {
+  transform-origin: 1240px 720px;
+  animation: bg-fx-spin 78s linear infinite reverse;
 }
 
 .bg-fx__grid {
-  opacity: var(--bg-fx-grid-opacity, 0.035);
+  opacity: var(--bg-fx-grid-opacity, 0.07);
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.7) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.7) 1px, transparent 1px);
-  background-size: 80px 80px;
-  mask-image: radial-gradient(ellipse 75% 70% at 50% 40%, black 20%, transparent 85%);
+    linear-gradient(rgba(255, 255, 255, 0.72) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.72) 1px, transparent 1px);
+  background-size: 84px 84px;
+  mask-image: radial-gradient(ellipse 78% 72% at 42% 36%, black 18%, transparent 82%);
 }
 
 .bg-fx__noise {
-  opacity: var(--bg-fx-noise-opacity, 0.03);
+  opacity: var(--bg-fx-noise-opacity, 0.028);
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 180px 180px;
   mix-blend-mode: soft-light;
-  animation: bg-fx-grain 8s steps(6) infinite;
-}
-
-.bg-fx__mouse-glow {
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(239, 73, 56, 0.22) 0%,
-    rgba(239, 73, 56, 0.08) 28%,
-    transparent 68%
-  );
-  opacity: 0;
-  filter: blur(2px);
-  transition: opacity 0.35s ease;
+  animation: bg-fx-grain 10s steps(5) infinite;
 }
 
 .bg-fx__vignette {
   background:
-    radial-gradient(ellipse 70% 60% at 50% 45%, transparent 35%, rgba(0, 0, 0, 0.55) 100%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, transparent 18%, transparent 78%, rgba(0, 0, 0, 0.35) 100%);
+    radial-gradient(ellipse 78% 68% at 50% 42%, transparent 52%, rgba(0, 0, 0, 0.28) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.12) 0%, transparent 18%, transparent 84%, rgba(0, 0, 0, 0.22) 100%);
 }
 
 .bg-fx__particles {
-  opacity: 0.9;
+  opacity: 0.92;
 }
 
 @keyframes bg-fx-grain {
@@ -220,19 +261,122 @@ h4,
     transform: translate(0, 0);
   }
   25% {
-    transform: translate(-1.5%, 1%);
+    transform: translate(-1.2%, 0.8%);
   }
   50% {
-    transform: translate(1%, -1.5%);
+    transform: translate(0.8%, -1.2%);
   }
   75% {
-    transform: translate(-0.5%, -1%);
+    transform: translate(-0.4%, -0.8%);
+  }
+}
+
+@keyframes bg-fx-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bg-fx-drift-a {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(4%, 3%) scale(1.06);
+  }
+}
+
+@keyframes bg-fx-drift-b {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-3%, -4%) scale(1.05);
+  }
+}
+
+@keyframes bg-fx-drift-c {
+  0%,
+  100% {
+    transform: translate(0, 0);
+    opacity: calc(var(--bg-fx-ambient, 0.62) * 0.95);
+  }
+  50% {
+    transform: translate(-2%, 5%);
+    opacity: calc(var(--bg-fx-ambient, 0.62) * 1.2);
+  }
+}
+
+@keyframes bg-fx-drift-d {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(5%, -3%);
+  }
+}
+
+.has-custom-cursor,
+.has-custom-cursor * {
+  cursor: none !important;
+}
+
+.custom-cursor__dot,
+.custom-cursor__ring,
+.custom-cursor__halo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.custom-cursor__dot {
+  width: 5px;
+  height: 5px;
+  background: rgba(244, 241, 235, 0.88);
+  box-shadow: 0 0 10px rgba(90, 24, 38, 0.35);
+}
+
+.custom-cursor__ring {
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(236, 230, 220, 0.32);
+}
+
+.custom-cursor__halo {
+  width: 64px;
+  height: 64px;
+  border: 1px solid rgba(90, 24, 38, 0.18);
+}
+
+@media (max-width: 767px) {
+  .bg-fx__blob {
+    filter: blur(56px);
+  }
+
+  .bg-fx__blob--a,
+  .bg-fx__blob--b {
+    width: 78vw;
+    height: 78vw;
+  }
+
+  .bg-fx__geometry {
+    opacity: 0.85;
   }
 }
 
 .service-track {
   display: flex;
   width: max-content;
+  padding-right: clamp(6rem, 14vw, 12rem);
   will-change: transform;
 }
 
@@ -288,7 +432,10 @@ h4,
 
   .marquee-track,
   .loading-bar,
-  .bg-fx__noise {
+  .bg-fx__noise,
+  .bg-fx__blob,
+  .bg-fx__spin-slow,
+  .bg-fx__spin-slower {
     animation: none !important;
   }
 

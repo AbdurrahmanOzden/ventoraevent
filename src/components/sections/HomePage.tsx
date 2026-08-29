@@ -5,14 +5,12 @@ import { Counter } from "@/components/ui/Counter";
 import { ReferenceCard } from "@/components/ui/Cards";
 import { PrimaryButton, SecondaryButton } from "@/components/ui/Button";
 import { HorizontalServiceJourney } from "@/components/services/HorizontalServiceJourney";
-import { fadeUp, staggerContainer } from "@/lib/animations";
 import { useSiteContent } from "@/hooks/use-site-content";
-import { motion } from "framer-motion";
 import Link from "next/link";
 
 export function HomePage() {
   const { content } = useSiteContent();
-  const { home, services, references, values, clientLogos } = content;
+  const { home, services, references, clientLogos } = content;
 
   const activeServices = services
     .filter((s) => s.active)
@@ -25,11 +23,11 @@ export function HomePage() {
 
   const featuredProjects = references
     .filter((r) => r.active)
-    .sort((a, b) => a.sortOrder - b.sortOrder)
-    .slice(0, 4);
-
-  const activeValues = values
-    .filter((v) => v.active)
+    .filter(
+      (r) =>
+        r.projectTitle !== "Yıllık Liderlik Zirvesi 2025" &&
+        r.projectTitle !== "Gala ve Ödül Töreni"
+    )
     .sort((a, b) => a.sortOrder - b.sortOrder)
     .slice(0, 4);
 
@@ -68,7 +66,7 @@ export function HomePage() {
       <section className="mx-auto max-w-7xl px-5 py-24 md:px-8">
         <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="section-label">03 / Projeler</p>
+            <p className="section-label">04 / Projeler</p>
             <h2 className="font-display mt-3 text-3xl font-semibold md:text-5xl">
               {home.projectsSectionTitle}
             </h2>
@@ -104,39 +102,6 @@ export function HomePage() {
               label={stat.label}
             />
           ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-5 py-24 md:px-8">
-        <p className="section-label">05 / Değerler</p>
-        <h2 className="font-display mt-3 text-3xl font-semibold md:text-5xl">
-          {home.valuesSectionTitle}
-        </h2>
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mt-12 grid gap-4 md:grid-cols-2"
-        >
-          {activeValues.map((value, index) => (
-            <motion.article
-              key={value.id}
-              variants={fadeUp}
-              className="border border-[var(--line)] bg-[var(--surface)] p-6 md:p-8"
-            >
-              <div className="flex items-start justify-between gap-4">
-                <h3 className="font-display text-2xl font-semibold">{value.title}</h3>
-                <span className="text-xs tabular-nums text-[var(--muted)]">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-              </div>
-              <p className="mt-4 text-[var(--muted)]">{value.description}</p>
-            </motion.article>
-          ))}
-        </motion.div>
-        <div className="mt-8">
-          <SecondaryButton href="/degerlerimiz">Tüm Değerlerimiz</SecondaryButton>
         </div>
       </section>
 

@@ -3,30 +3,25 @@
 import { PrimaryButton, SecondaryButton } from "@/components/ui/Button";
 import { useSiteContent } from "@/hooks/use-site-content";
 import { motion } from "framer-motion";
-import Image from "next/image";
 
 export function CinematicHero() {
   const { content } = useSiteContent();
   const { home, settings } = content;
-  const featuredImage =
-    content.services.find((s) => s.active)?.imageUrl ||
-    "/images/services/sahne-tasarimi.png";
 
   const parts = home.heroHeadline.split(" ");
   const highlightIndex = Math.max(parts.length - 2, 1);
 
   return (
     <section className="relative min-h-screen overflow-hidden pt-28 pb-16">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_28%,rgba(239,73,56,0.08),transparent_42%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_28%,rgba(239,73,56,0.1),transparent_46%)]" />
 
-      <div className="relative z-10 mx-auto grid max-w-[1600px] items-end gap-10 px-5 md:px-8 lg:grid-cols-[1.15fr_0.85fr]">
-        <div className="pb-8">
-          <p className="section-label">01 / Ana Sayfa</p>
+      <div className="relative z-10 mx-auto flex min-h-[72vh] max-w-[1600px] items-end px-5 md:px-8">
+        <div className="max-w-4xl pb-8">
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display mt-6 max-w-3xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl md:text-7xl"
+            className="font-display mt-0 max-w-3xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl md:text-7xl"
           >
             {parts.map((word, index) => (
               <span key={`${word}-${index}`}>
@@ -52,25 +47,6 @@ export function CinematicHero() {
             <span>Prodüksiyon</span>
             <span className="h-px w-8 bg-[var(--line-strong)]" />
             <span>{settings.siteName}</span>
-          </div>
-        </div>
-
-        <div className="relative aspect-[4/5] overflow-hidden border border-[var(--line)] bg-[var(--surface)] lg:aspect-[3/4]">
-          <Image
-            src={featuredImage}
-            alt="Ventora Event sahne ve prodüksiyon görseli"
-            fill
-            priority
-            sizes="(max-width: 1024px) 100vw, 40vw"
-            className="object-cover grayscale-[0.25] contrast-[1.05]"
-            unoptimized={featuredImage.endsWith(".svg")}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
-          <div className="absolute right-4 bottom-4 left-4 flex items-end justify-between">
-            <p className="text-xs tracking-[0.2em] text-white/70 uppercase">
-              Sahne · Işık · Deneyim
-            </p>
-            <p className="font-display text-5xl text-white/15">01</p>
           </div>
         </div>
       </div>

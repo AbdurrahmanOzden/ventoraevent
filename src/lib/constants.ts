@@ -9,7 +9,6 @@ export const DEV_ADMIN_PASSWORD = "admin123";
 export const NAV_ITEMS = [
   { href: "/", label: "Ana Sayfa" },
   { href: "/biz-kimiz", label: "Biz Kimiz" },
-  { href: "/degerlerimiz", label: "Değerlerimiz" },
   { href: "/neler-yapiyoruz", label: "Neler Yapıyoruz" },
   { href: "/referanslar", label: "Referanslar" },
   { href: "/iletisim", label: "İletişim" },
@@ -17,18 +16,18 @@ export const NAV_ITEMS = [
 
 export const PROJECT_CATEGORIES = [
   "Kurumsal",
-  "Lansman",
   "Festival",
-  "Konser",
   "Özel Davet",
+  "Mezuniyet",
   "Prodüksiyon",
 ] as const;
 
 export const EVENT_TYPES = [
   "Kurumsal Etkinlik",
-  "Marka Lansmanı",
-  "Festival / Konser",
+  "Mezuniyet",
+  "Festival / Açık Hava",
   "Özel Davet",
-  "Sahne ve Prodüksiyon",
+  "Kongre ve Toplantı",
+  "M.I.C.E & Event",
   "Diğer",
 ] as const;

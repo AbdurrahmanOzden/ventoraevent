@@ -71,11 +71,6 @@ export function HomeEditor() {
           onChange={(e) => setForm({ ...form, projectsSectionTitle: e.target.value })}
         />
         <Input
-          label="Değerler Bölüm Başlığı"
-          value={form.valuesSectionTitle}
-          onChange={(e) => setForm({ ...form, valuesSectionTitle: e.target.value })}
-        />
-        <Input
           label="İletişim CTA Başlığı"
           value={form.contactCtaTitle}
           onChange={(e) => setForm({ ...form, contactCtaTitle: e.target.value })}

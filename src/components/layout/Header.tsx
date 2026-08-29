@@ -9,12 +9,11 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const PAGE_LABELS: Record<string, string> = {
-  "/": "01 / Ana Sayfa",
-  "/biz-kimiz": "02 / Biz Kimiz",
-  "/degerlerimiz": "03 / Değerlerimiz",
-  "/neler-yapiyoruz": "04 / Neler Yapıyoruz",
-  "/referanslar": "05 / Referanslar",
-  "/iletisim": "06 / İletişim",
+  "/": "Ana Sayfa",
+  "/biz-kimiz": "Biz Kimiz",
+  "/neler-yapiyoruz": "Neler Yapıyoruz",
+  "/referanslar": "Referanslar",
+  "/iletisim": "İletişim",
 };
 
 export function Header() {
@@ -40,7 +39,7 @@ export function Header() {
             : "bg-transparent"
         )}
       >
-        <div className="mx-auto grid h-16 max-w-[1600px] grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 md:h-[4.5rem] md:px-8">
+        <div className="grid h-16 w-full grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 md:h-[4.5rem] md:px-5">
           <Link href="/" className="justify-self-start">
             <span className="font-display text-lg font-semibold tracking-tight md:text-xl">
               {content.settings.logoText}
@@ -49,7 +48,7 @@ export function Header() {
 
           <div className="hidden text-center sm:block">
             <p className="text-[0.68rem] tracking-[0.22em] text-[var(--muted)] uppercase">
-              {PAGE_LABELS[pathname] || "Ventora Event"}
+              {PAGE_LABELS[pathname] || content.settings.logoText}
             </p>
             <div className="mx-auto mt-2 h-px w-16 overflow-hidden bg-[var(--line)]">
               <div className="h-full w-1/2 bg-[var(--accent)]" />

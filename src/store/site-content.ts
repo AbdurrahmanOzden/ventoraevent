@@ -13,7 +13,6 @@ import type {
   ServiceItem,
   SiteContent,
   SiteSettings,
-  ValueItem,
 } from "@/types/content";
 
 interface SiteContentState {
@@ -32,10 +31,6 @@ interface SiteContentState {
   updateReference: (id: string, updates: Partial<ReferenceItem>) => void;
   deleteReference: (id: string) => void;
   reorderReferences: (fromIndex: number, toIndex: number) => void;
-  addValue: (value: Omit<ValueItem, "id" | "sortOrder">) => void;
-  updateValue: (id: string, updates: Partial<ValueItem>) => void;
-  deleteValue: (id: string) => void;
-  reorderValues: (fromIndex: number, toIndex: number) => void;
   updateContactInfo: (info: Partial<ContactInfo>) => void;
   updateSiteSettings: (settings: Partial<SiteSettings>) => void;
   resetContent: () => void;
@@ -57,13 +52,32 @@ function readStoredContent(): SiteContent | null {
 }
 
 const SERVICE_IMAGE_BY_ID: Record<string, string> = {
-  svc1: "/images/services/kurumsal-etkinlikler.jpg",
-  svc2: "/images/services/lansman-marka-deneyimleri.jpg",
-  svc3: "/images/services/festival-konser-yonetimi.jpg",
-  svc4: "/images/services/ozel-davetler.jpg",
-  svc5: "/images/services/teknik-produksiyon.jpg",
-  svc6: "/images/services/sahne-tasarimi.png",
+  svc1: "/images/services/kurumsal-etkinlikler-2026.jpg",
+  svc3: "/images/services/festival-konser-yonetimi.mp4",
+  svc4: "/images/services/ozel-davetler-2026.jpg",
+  svc5: "/images/services/mezuniyet.png",
+  svc6: "/images/services/mice-event.png",
 };
+
+const REFERENCE_IMAGE_BY_ID: Record<string, string> = {
+  ref2: "/images/services/mezuniyet.png",
+  ref3: "/images/projects/acik-hava-muzik-festivali.jpg",
+};
+
+const REMOVED_SERVICE_IDS = new Set(["svc2", "svc7", "svc8"]);
+const REMOVED_SERVICE_TITLES = new Set([
+  "Lansman ve Marka Deneyimleri",
+  "Sahne ve Teknik Prodüksiyon",
+  "Kongre ve Toplantı Yönetimi",
+  "Kreatif Konsept Tasarımı",
+  "Dijital ve Hibrit Etkinlikler",
+]);
+const REMOVED_REFERENCE_TITLES = new Set([
+  "Yeni Ürün Lansmanı",
+  "Stad Konser Prodüksiyonu",
+  "Yıllık Liderlik Zirvesi 2025",
+  "Gala ve Ödül Töreni",
+]);
 
 function migrateContent(stored: SiteContent): SiteContent {
   const defaults = defaultSiteContent;
@@ -123,23 +137,85 @@ function migrateContent(stored: SiteContent): SiteContent {
       }
     : stored.about;
 
-  const services = stored.services.map((service) => {
-    const nextImage = SERVICE_IMAGE_BY_ID[service.id];
-    const isPlaceholder =
-      !service.imageUrl ||
-      service.imageUrl.startsWith("/images/service-") ||
-      service.imageUrl.includes("nova");
-    return nextImage && (isPlaceholder || looksLikeLegacyBrand)
-      ? { ...service, imageUrl: nextImage }
-      : service;
+  const home = {
+    ...stored.home,
+    marqueeTexts: stored.home.marqueeTexts.map((item) =>
+      item.text === "TASARIM • PRODÜKSİYON • ORGANİZASYON"
+        ? { ...item, text: "ORGANİZASYON" }
+        : item
+    ),
+  };
+
+  const mezuniyetService = defaults.services.find((service) => service.id === "svc5");
+  const miceService = defaults.services.find((service) => service.id === "svc6");
+  const mezuniyetReference = defaults.references.find((reference) => reference.id === "ref2");
+
+  let services = stored.services
+    .filter(
+      (service) =>
+        !REMOVED_SERVICE_IDS.has(service.id) &&
+        !REMOVED_SERVICE_TITLES.has(service.title)
+    )
+    .map((service) => {
+      if (service.id === "svc5") {
+        return mezuniyetService ? { ...mezuniyetService } : service;
+      }
+      if (service.id === "svc6") {
+        return miceService ? { ...miceService } : service;
+      }
+      const nextImage = SERVICE_IMAGE_BY_ID[service.id];
+      return nextImage ? { ...service, imageUrl: nextImage } : service;
+    });
+
+  if (mezuniyetService && !services.some((service) => service.title === "Mezuniyet")) {
+    services = [...services, mezuniyetService];
+  }
+
+  if (miceService && !services.some((service) => service.title === "M.I.C.E & EVENT")) {
+    services = [...services, miceService];
+  }
+
+  services = services.map((service, index) => ({ ...service, sortOrder: index + 1 }));
+
+  let references = stored.references.filter((reference) => {
+    const category = String(reference.category);
+    return (
+      category !== "Lansman" &&
+      category !== "Konser" &&
+      !REMOVED_REFERENCE_TITLES.has(reference.projectTitle)
+    );
   });
 
+  if (mezuniyetReference && !references.some((reference) => reference.category === "Mezuniyet")) {
+    references = [mezuniyetReference, ...references];
+  }
+
+  references = references.map((reference, index) => {
+    const nextImage =
+      REFERENCE_IMAGE_BY_ID[reference.id] ||
+      (reference.projectTitle === "Açık Hava Müzik Festivali"
+        ? "/images/projects/acik-hava-muzik-festivali.jpg"
+        : reference.category === "Mezuniyet"
+          ? "/images/services/mezuniyet.png"
+          : undefined);
+    return {
+      ...reference,
+      coverImageUrl: nextImage || reference.coverImageUrl,
+      sortOrder: index + 1,
+    };
+  });
+
+  const restStored = { ...stored } as SiteContent & { values?: unknown };
+  delete restStored.values;
+
   return normalizeSiteContent({
-    ...stored,
+    ...restStored,
     settings,
     contactInfo,
+    home,
     about,
     services,
+    references,
   });
 }
 
@@ -253,43 +329,6 @@ export const useSiteContentStore = create<SiteContentState>((set, get) => ({
     persist({
       ...content,
       references: reorderList(content.references, fromIndex, toIndex),
-    });
-  },
-
-  addValue: (value) => {
-    const { content, persist } = get();
-    const sortOrder = content.values.length + 1;
-    persist({
-      ...content,
-      values: [...content.values, { ...value, id: generateId("val"), sortOrder }],
-    });
-  },
-
-  updateValue: (id, updates) => {
-    const { content, persist } = get();
-    persist({
-      ...content,
-      values: content.values.map((item) =>
-        item.id === id ? { ...item, ...updates } : item
-      ),
-    });
-  },
-
-  deleteValue: (id) => {
-    const { content, persist } = get();
-    persist({
-      ...content,
-      values: content.values
-        .filter((item) => item.id !== id)
-        .map((item, index) => ({ ...item, sortOrder: index + 1 })),
-    });
-  },
-
-  reorderValues: (fromIndex, toIndex) => {
-    const { content, persist } = get();
-    persist({
-      ...content,
-      values: reorderList(content.values, fromIndex, toIndex),
     });
   },
 

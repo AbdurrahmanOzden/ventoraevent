@@ -8,7 +8,6 @@ import {
   Briefcase,
   FileText,
   Inbox,
-  Sparkles,
   CheckCircle2,
   Clock,
 } from "lucide-react";
@@ -24,14 +23,9 @@ export function AdminOverview({ onNavigate }: OverviewProps) {
 
   const activeServices = content.services.filter((s) => s.active).length;
   const activeRefs = content.references.filter((r) => r.active).length;
-  const activeValues = content.values.filter((v) => v.active).length;
-  const activeContent =
-    activeServices + activeRefs + activeValues + (content.home ? 1 : 0);
+  const activeContent = activeServices + activeRefs + (content.home ? 1 : 0);
   const inactiveContent =
-    content.services.length +
-    content.references.length +
-    content.values.length -
-    (activeServices + activeRefs + activeValues);
+    content.services.length + content.references.length - (activeServices + activeRefs);
 
   return (
     <div className="space-y-8">
@@ -59,12 +53,6 @@ export function AdminOverview({ onNavigate }: OverviewProps) {
           value={activeContent}
           hint={`${inactiveContent} pasif öğe`}
           icon={<CheckCircle2 className="h-4 w-4 text-[var(--success)]" />}
-        />
-        <AdminCard
-          title="Toplam Değer"
-          value={content.values.length}
-          hint={`${activeValues} aktif`}
-          icon={<Sparkles className="h-4 w-4 text-[var(--secondary)]" />}
         />
         <AdminCard
           title="Son Güncelleme"

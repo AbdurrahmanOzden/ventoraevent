@@ -263,6 +263,10 @@ function PanelCopy({
   );
 }
 
+function isVideoUrl(url: string) {
+  return /\.(mp4|webm|ogg)(\?.*)?$/i.test(url);
+}
+
 function PanelMedia({
   service,
   active,
@@ -272,6 +276,8 @@ function PanelMedia({
   active: boolean;
   className?: string;
 }) {
+  const video = isVideoUrl(service.imageUrl);
+
   return (
     <div className={cn("relative overflow-hidden bg-[var(--background-soft)]", className)}>
       <motion.div
@@ -282,14 +288,30 @@ function PanelMedia({
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         className="absolute inset-0"
       >
-        <Image
-          src={service.imageUrl}
-          alt={`${service.title} hizmet görseli`}
-          fill
-          sizes="(max-width: 768px) 100vw, 50vw"
-          className="object-cover"
-          unoptimized={service.imageUrl.endsWith(".svg")}
-        />
+        {video ? (
+          <video
+            src={service.imageUrl}
+            className="h-full w-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-hidden
+          />
+        ) : (
+          <Image
+            src={service.imageUrl}
+            alt={`${service.title} hizmet görseli`}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover"
+            unoptimized={
+              service.imageUrl.endsWith(".svg") ||
+              /\.(jpe?g|png)(\?.*)?$/i.test(service.imageUrl)
+            }
+          />
+        )}
       </motion.div>
       <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
     </div>

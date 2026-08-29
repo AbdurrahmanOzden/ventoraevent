@@ -17,10 +17,6 @@ export function useSiteContent() {
   const updateReference = useSiteContentStore((s) => s.updateReference);
   const deleteReference = useSiteContentStore((s) => s.deleteReference);
   const reorderReferences = useSiteContentStore((s) => s.reorderReferences);
-  const addValue = useSiteContentStore((s) => s.addValue);
-  const updateValue = useSiteContentStore((s) => s.updateValue);
-  const deleteValue = useSiteContentStore((s) => s.deleteValue);
-  const reorderValues = useSiteContentStore((s) => s.reorderValues);
   const updateContactInfo = useSiteContentStore((s) => s.updateContactInfo);
   const updateSiteSettings = useSiteContentStore((s) => s.updateSiteSettings);
   const resetContent = useSiteContentStore((s) => s.resetContent);
@@ -42,10 +38,6 @@ export function useSiteContent() {
     updateReference,
     deleteReference,
     reorderReferences,
-    addValue,
-    updateValue,
-    deleteValue,
-    reorderValues,
     updateContactInfo,
     updateSiteSettings,
     resetContent,

@@ -62,7 +62,9 @@ function DesktopJourney({
 }) {
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
   const [scrollLength, setScrollLength] = useState(2400);
+  const [holdLength, setHoldLength] = useState(500);
   const [activeIndex, setActiveIndex] = useState(0);
   const [started, setStarted] = useState(false);
   const isDesktop = useSyncExternalStore(
@@ -74,32 +76,44 @@ function DesktopJourney({
   useEffect(() => {
     const measure = () => {
       const track = trackRef.current;
-      if (!track) return;
-      const overflow = Math.max(track.scrollWidth - window.innerWidth + 64, 800);
+      const viewport = viewportRef.current;
+      if (!track || !viewport) return;
+      const visible = viewport.clientWidth;
+      const overflow = Math.max(track.scrollWidth - visible, 0);
       setScrollLength(overflow);
+      setHoldLength(window.innerHeight * 0.55);
     };
+
     measure();
+    const raf = window.requestAnimationFrame(measure);
     const ro = new ResizeObserver(measure);
     if (trackRef.current) ro.observe(trackRef.current);
+    if (viewportRef.current) ro.observe(viewportRef.current);
     window.addEventListener("resize", measure);
     return () => {
+      window.cancelAnimationFrame(raf);
       ro.disconnect();
       window.removeEventListener("resize", measure);
     };
   }, [services.length]);
+
+  const travelLength = holdLength + scrollLength;
+  const holdStart = travelLength > 0 ? holdLength / travelLength : 0.35;
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end end"],
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], [0, -scrollLength]);
+  const x = useTransform(scrollYProgress, [holdStart, 1], [0, -scrollLength]);
 
   useMotionValueEvent(scrollYProgress, "change", (value) => {
-    if (value > 0.02) setStarted(true);
+    const mapped =
+      value <= holdStart ? 0 : Math.min(1, (value - holdStart) / Math.max(1 - holdStart, 0.0001));
+    if (mapped > 0.02) setStarted(true);
     const next = Math.min(
       services.length - 1,
-      Math.max(0, Math.round(value * (services.length - 1)))
+      Math.max(0, Math.round(mapped * (services.length - 1)))
     );
     setActiveIndex((prev) => (prev === next ? prev : next));
   });
@@ -111,10 +125,11 @@ function DesktopJourney({
       const rect = section.getBoundingClientRect();
       const absoluteTop = window.scrollY + rect.top;
       const total = Math.max(section.offsetHeight - window.innerHeight, 1);
-      const ratio = services.length <= 1 ? 0 : index / (services.length - 1);
+      const cardRatio = services.length <= 1 ? 0 : index / (services.length - 1);
+      const ratio = holdStart + (1 - holdStart) * cardRatio;
       window.scrollTo({ top: absoluteTop + total * ratio, behavior: "smooth" });
     },
-    [services.length]
+    [holdStart, services.length]
   );
 
   useEffect(() => {
@@ -160,7 +175,7 @@ function DesktopJourney({
     <section
       ref={sectionRef}
       className="relative"
-      style={{ height: `calc(100vh + ${scrollLength}px)` }}
+      style={{ height: `calc(100vh + ${travelLength}px)` }}
     >
       <div className="sticky top-0 h-screen overflow-hidden bg-[var(--background)]">
         <div className="absolute inset-0 line-grid opacity-30" />
@@ -169,7 +184,7 @@ function DesktopJourney({
         <div className="relative z-10 mx-auto flex h-full max-w-[1600px] flex-col px-5 pt-28 pb-8 md:px-8">
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="section-label">04 / Hizmetler</p>
+              <p className="section-label">03 / Hizmetler</p>
               <h2 className="font-display mt-3 max-w-3xl text-3xl font-semibold md:text-5xl">
                 {introTitle}
               </h2>
@@ -184,7 +199,7 @@ function DesktopJourney({
             </p>
           </div>
 
-          <div className="relative min-h-0 flex-1">
+          <div ref={viewportRef} className="relative min-h-0 flex-1 overflow-hidden">
             <motion.div ref={trackRef} style={{ x }} className="service-track absolute top-0 left-0 h-[min(78vh,780px)] items-stretch">
               {services.map((service, index) => (
                 <ServicePanel
@@ -230,7 +245,7 @@ export function ServiceMobileList({
   return (
     <section className="bg-[var(--background)] px-5 py-20 md:px-8">
       <div className="mx-auto max-w-5xl">
-        <p className="section-label">04 / Hizmetler</p>
+        <p className="section-label">03 / Hizmetler</p>
         <h2 className="font-display mt-3 text-3xl font-semibold md:text-5xl">{introTitle}</h2>
         <p className="mt-4 max-w-2xl text-[var(--muted)]">{introSubtitle}</p>
         <p className="mt-6 text-xs tabular-nums tracking-[0.18em] text-[var(--muted)] uppercase">

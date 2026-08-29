@@ -1,48 +1,38 @@
 /**
- * Ventora Background FX — easily tunable atmosphere settings.
- * Keep values subtle; this is premium ambience, not a light show.
+ * Ventora Interactive Background — tunable, keep values quiet and premium.
  */
 export const BACKGROUND_FX = {
-  /** Particle counts by viewport class */
   particleCount: {
-    desktop: 46,
+    desktop: 48,
     tablet: 28,
     mobile: 16,
   },
-
-  /** Base drift speed multiplier (higher = faster) */
-  particleSpeed: 0.22,
-
-  /** Cursor aura strength 0–1 */
-  glowIntensity: 0.2,
-
-  /** Technical grid visibility 0–1 */
-  gridOpacity: 0.035,
-
-  /** Film grain overlay 0–1 */
-  noiseOpacity: 0.03,
-
-  /** Home route multiplier for particles + glow + ambient */
-  heroBoostIntensity: 1.32,
-
-  /** Soft corner / ambient red wash */
-  ambientGlowOpacity: 0.14,
-
-  /** Max particle radius in CSS pixels */
+  particleSpeed: 0.11,
+  glowIntensity: 0.22,
+  gridOpacity: 0.1,
+  noiseOpacity: 0.04,
+  heroBoostIntensity: 1,
+  ambientGlowOpacity: 0.62,
   particleSize: {
-    min: 0.6,
-    max: 1.8,
+    min: 0.9,
+    max: 2.4,
   },
-
-  /** Soft connection lines between nearby particles (0 = off) */
-  linkOpacity: 0.035,
-  linkDistance: 110,
-
-  /** Glow blob size as fraction of the shorter viewport side */
+  linkOpacity: 0.14,
+  linkDistance: 140,
   glowSizeFactor: 0.42,
+  pointerLerp: 0.12,
+} as const;
 
-  /** Pointer smoothing (0–1, lower = smoother/slower) */
-  pointerLerp: 0.08,
+export const SCENE_COLORS = {
+  burgundy: "148, 42, 54",
+  darkRed: "186, 62, 52",
+  accent: "239, 73, 56",
+  mutedPurple: "124, 92, 148",
+  orange: "210, 110, 68",
+  cyan: "110, 168, 186",
+  graphite: "210, 206, 198",
+  warmWhite: "244, 238, 228",
 } as const;
 
 export type BackgroundFxConfig = typeof BACKGROUND_FX;
+export type SceneIntensity = "cinematic" | "ambient";

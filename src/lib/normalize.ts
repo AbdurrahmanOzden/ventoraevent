@@ -34,7 +34,7 @@ export function normalizeService(
     title: service.title || "Yeni Hizmet",
     shortDescription: service.shortDescription || "",
     detailedDescription: service.detailedDescription || "",
-    imageUrl: service.imageUrl || "/images/services/kurumsal-etkinlikler.jpg",
+    imageUrl: service.imageUrl || "/images/services/kurumsal-etkinlikler-2026.jpg",
     features,
     buttonText: service.buttonText || "Hizmeti İncele",
     active: service.active ?? true,

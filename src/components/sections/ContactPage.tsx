@@ -83,7 +83,7 @@ export function ContactPage() {
   return (
     <>
       <PageIntro
-        number="06"
+        number="05"
         label="İLETİŞİM"
         title="Projenizi konuşmak, keşif görüşmesi planlamak veya teklif almak için bize ulaşın."
         description="Markanız için doğru konsepti, doğru sahneyi ve doğru deneyimi birlikte kuralım."

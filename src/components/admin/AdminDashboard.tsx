@@ -6,7 +6,6 @@ import { AboutEditor, HomeEditor } from "@/components/admin/ContentEditors";
 import {
   ReferencesEditor,
   ServicesEditor,
-  ValuesEditor,
 } from "@/components/admin/CrudEditors";
 import {
   ContactInfoEditor,
@@ -27,7 +26,6 @@ export function AdminDashboard() {
       {section === "overview" ? <AdminOverview onNavigate={setSection} /> : null}
       {section === "home" ? <HomeEditor key={`home-${editorKey}`} /> : null}
       {section === "about" ? <AboutEditor key={`about-${editorKey}`} /> : null}
-      {section === "values" ? <ValuesEditor key={`values-${editorKey}`} /> : null}
       {section === "services" ? <ServicesEditor key={`services-${editorKey}`} /> : null}
       {section === "references" ? (
         <ReferencesEditor key={`references-${editorKey}`} />

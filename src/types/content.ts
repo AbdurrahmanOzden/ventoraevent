@@ -1,9 +1,8 @@
 export type ProjectCategory =
   | "Kurumsal"
-  | "Lansman"
   | "Festival"
-  | "Konser"
   | "Özel Davet"
+  | "Mezuniyet"
   | "Prodüksiyon";
 
 export interface StatisticItem {
@@ -16,15 +15,6 @@ export interface StatisticItem {
 export interface MarqueeItem {
   id: string;
   text: string;
-}
-
-export interface ValueItem {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-  active: boolean;
-  sortOrder: number;
 }
 
 export interface ServiceFeature {
@@ -89,7 +79,6 @@ export interface HomePageContent {
   servicesSectionTitle: string;
   projectsSectionTitle: string;
   statistics: StatisticItem[];
-  valuesSectionTitle: string;
   contactCtaTitle: string;
   contactCtaDescription: string;
 }
@@ -157,7 +146,6 @@ export interface ContactMessage {
 export interface SiteContent {
   home: HomePageContent;
   about: AboutPageContent;
-  values: ValueItem[];
   services: ServiceItem[];
   references: ReferenceItem[];
   clientLogos: ClientLogo[];
@@ -170,7 +158,6 @@ export type AdminSection =
   | "overview"
   | "home"
   | "about"
-  | "values"
   | "services"
   | "references"
   | "contact-info"

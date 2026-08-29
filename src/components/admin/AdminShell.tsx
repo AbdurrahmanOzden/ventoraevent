@@ -16,7 +16,6 @@ import {
   Menu,
   MessageSquare,
   Settings,
-  Sparkles,
   Briefcase,
   X,
 } from "lucide-react";
@@ -28,7 +27,6 @@ const MENU: { id: AdminSection; label: string; icon: typeof Home }[] = [
   { id: "overview", label: "Genel Bakış", icon: LayoutDashboard },
   { id: "home", label: "Ana Sayfa", icon: Home },
   { id: "about", label: "Biz Kimiz", icon: Building2 },
-  { id: "values", label: "Değerlerimiz", icon: Sparkles },
   { id: "services", label: "Hizmetler", icon: Briefcase },
   { id: "references", label: "Referanslar", icon: FileText },
   { id: "contact-info", label: "İletişim Bilgileri", icon: MessageSquare },

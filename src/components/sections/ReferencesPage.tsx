@@ -30,7 +30,7 @@ export function ReferencesPage() {
   return (
     <>
       <PageIntro
-        number="05"
+        number="04"
         label="REFERANSLAR"
         title="Markalar ve kurumlarla birlikte hayata geçirdiğimiz seçili projeler."
         description="Her iş birliği; strateji, kreatif ve prodüksiyonun aynı ritimde çalıştığı bir deneyim olarak kurgulanır."

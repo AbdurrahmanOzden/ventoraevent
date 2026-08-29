@@ -3,160 +3,13 @@
 import { PrimaryButton, SecondaryButton } from "@/components/ui/Button";
 import { Input, Textarea, Toggle, Select } from "@/components/ui/FormFields";
 import { ConfirmDialog, Modal } from "@/components/ui/Modal";
-import { EmptyState } from "@/components/ui/Feedback";
 import { useToast } from "@/components/ui/Toast";
 import { useSiteContent } from "@/hooks/use-site-content";
 import { PROJECT_CATEGORIES } from "@/lib/constants";
 import { generateId } from "@/lib/utils";
-import type { ProjectCategory, ReferenceItem, ServiceItem, ValueItem } from "@/types/content";
+import type { ProjectCategory, ReferenceItem, ServiceItem } from "@/types/content";
 import { ArrowDown, ArrowUp, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
-
-export function ValuesEditor() {
-  const { content, addValue, updateValue, deleteValue, reorderValues } = useSiteContent();
-  const toast = useToast();
-  const [editing, setEditing] = useState<ValueItem | null>(null);
-  const [deleteId, setDeleteId] = useState<string | null>(null);
-  const values = [...content.values].sort((a, b) => a.sortOrder - b.sortOrder);
-
-  return (
-    <div className="space-y-4">
-      <div className="flex justify-end">
-        <PrimaryButton
-          type="button"
-          onClick={() =>
-            setEditing({
-              id: "",
-              title: "",
-              description: "",
-              icon: "Sparkles",
-              active: true,
-              sortOrder: values.length + 1,
-            })
-          }
-        >
-          Yeni Değer Ekle
-        </PrimaryButton>
-      </div>
-
-      {values.length === 0 ? (
-        <EmptyState title="Henüz değer yok" />
-      ) : (
-        <ul className="space-y-3">
-          {values.map((item, index) => (
-            <li
-              key={item.id}
-              className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4"
-            >
-              <div>
-                <p className="font-medium">
-                  {item.title}{" "}
-                  <span className="text-xs text-[var(--muted)]">
-                    ({item.active ? "Aktif" : "Pasif"})
-                  </span>
-                </p>
-                <p className="mt-1 max-w-xl text-sm text-[var(--muted)]">{item.description}</p>
-              </div>
-              <div className="flex gap-2">
-                <IconButton
-                  label="Yukarı"
-                  onClick={() => index > 0 && reorderValues(index, index - 1)}
-                >
-                  <ArrowUp className="h-4 w-4" />
-                </IconButton>
-                <IconButton
-                  label="Aşağı"
-                  onClick={() =>
-                    index < values.length - 1 && reorderValues(index, index + 1)
-                  }
-                >
-                  <ArrowDown className="h-4 w-4" />
-                </IconButton>
-                <IconButton label="Düzenle" onClick={() => setEditing(item)}>
-                  <Pencil className="h-4 w-4" />
-                </IconButton>
-                <IconButton label="Sil" onClick={() => setDeleteId(item.id)}>
-                  <Trash2 className="h-4 w-4 text-[var(--danger)]" />
-                </IconButton>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
-
-      <Modal
-        open={!!editing}
-        onClose={() => setEditing(null)}
-        title={editing?.id ? "Değer Düzenle" : "Yeni Değer"}
-        className="max-w-xl"
-      >
-        {editing ? (
-          <div className="space-y-4">
-            <Input
-              label="Başlık"
-              value={editing.title}
-              onChange={(e) => setEditing({ ...editing, title: e.target.value })}
-            />
-            <Textarea
-              label="Açıklama"
-              value={editing.description}
-              onChange={(e) => setEditing({ ...editing, description: e.target.value })}
-            />
-            <Input
-              label="İkon Adı (Lucide)"
-              value={editing.icon}
-              onChange={(e) => setEditing({ ...editing, icon: e.target.value })}
-            />
-            <Toggle
-              label="Aktif"
-              checked={editing.active}
-              onChange={(active) => setEditing({ ...editing, active })}
-            />
-            <PrimaryButton
-              type="button"
-              onClick={() => {
-                if (!editing.title.trim()) {
-                  toast("Başlık zorunludur.", "error");
-                  return;
-                }
-                if (editing.id) {
-                  updateValue(editing.id, editing);
-                  toast("Değer güncellendi.", "success");
-                } else {
-                  addValue({
-                    title: editing.title,
-                    description: editing.description,
-                    icon: editing.icon,
-                    active: editing.active,
-                  });
-                  toast("Değer eklendi.", "success");
-                }
-                setEditing(null);
-              }}
-            >
-              Kaydet
-            </PrimaryButton>
-          </div>
-        ) : null}
-      </Modal>
-
-      <ConfirmDialog
-        open={!!deleteId}
-        onClose={() => setDeleteId(null)}
-        onConfirm={() => {
-          if (deleteId) {
-            deleteValue(deleteId);
-            toast("Değer silindi.", "success");
-          }
-        }}
-        title="Değeri Sil"
-        description="Bu değeri silmek istediğinize emin misiniz? Bu işlem geri alınamaz."
-        confirmLabel="Sil"
-        danger
-      />
-    </div>
-  );
-}
 
 export function ServicesEditor() {
   const { content, addService, updateService, deleteService, reorderServices } =
@@ -171,7 +24,7 @@ export function ServicesEditor() {
     title: "",
     shortDescription: "",
     detailedDescription: "",
-    imageUrl: "/images/services/kurumsal-etkinlikler.jpg",
+    imageUrl: "/images/services/kurumsal-etkinlikler-2026.jpg",
     features: [{ id: generateId("f"), text: "" }],
     buttonText: "Hizmeti İncele",
     active: true,
@@ -259,12 +112,21 @@ export function ServicesEditor() {
               onChange={(e) => setEditing({ ...editing, imageUrl: e.target.value })}
             />
             {editing.imageUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={editing.imageUrl}
-                alt="Önizleme"
-                className="h-32 w-full rounded-xl object-cover"
-              />
+              /\.(mp4|webm|ogg)(\?.*)?$/i.test(editing.imageUrl) ? (
+                <video
+                  src={editing.imageUrl}
+                  className="h-32 w-full rounded-xl object-cover"
+                  muted
+                  playsInline
+                />
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={editing.imageUrl}
+                  alt="Önizleme"
+                  className="h-32 w-full rounded-xl object-cover"
+                />
+              )
             ) : null}
             <Input
               label="Buton Metni"
@@ -424,7 +286,7 @@ export function ReferencesEditor() {
     eventDate: new Date().toISOString().slice(0, 10),
     shortDescription: "",
     logoUrl: "/images/logo-aurora.svg",
-    coverImageUrl: "/images/project-summit.svg",
+    coverImageUrl: "/images/projects/acik-hava-muzik-festivali.jpg",
     active: true,
     sortOrder: refs.length + 1,
   });
