@@ -189,6 +189,7 @@ export function createInteractiveScene(
   const follow = 0.09;
 
   const onPointer = (event: PointerEvent) => {
+    if (event.pointerType !== "mouse") return;
     pointerTarget.x = event.clientX;
     pointerTarget.y = event.clientY;
   };

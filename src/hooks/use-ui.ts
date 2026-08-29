@@ -25,6 +25,22 @@ export function useReducedMotion(): boolean {
   );
 }
 
+const FINE_POINTER_QUERY = "(hover: hover) and (pointer: fine) and (min-width: 1024px)";
+
+function subscribeFinePointer(onChange: () => void) {
+  const media = window.matchMedia(FINE_POINTER_QUERY);
+  media.addEventListener("change", onChange);
+  return () => media.removeEventListener("change", onChange);
+}
+
+export function useFinePointer(): boolean {
+  return useSyncExternalStore(
+    subscribeFinePointer,
+    () => window.matchMedia(FINE_POINTER_QUERY).matches,
+    () => false
+  );
+}
+
 export function useLockedBody(locked: boolean) {
   useEffect(() => {
     if (!locked) return;

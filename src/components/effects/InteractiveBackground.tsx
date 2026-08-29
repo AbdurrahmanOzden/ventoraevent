@@ -3,7 +3,7 @@
 import { createInteractiveScene, type ViewportTier } from "@/components/effects/interactive-scene";
 import type { SceneIntensity } from "@/lib/background-fx-config";
 import { BACKGROUND_FX } from "@/lib/background-fx-config";
-import { useReducedMotion } from "@/hooks/use-ui";
+import { useFinePointer, useReducedMotion } from "@/hooks/use-ui";
 import {
   useEffect,
   useRef,
@@ -39,13 +39,14 @@ interface InteractiveBackgroundProps {
 
 export function InteractiveBackground({ intensity = "cinematic" }: InteractiveBackgroundProps) {
   const reducedMotion = useReducedMotion();
+  const finePointer = useFinePointer();
   const tier = useViewportTier();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const layerRef = useRef<HTMLDivElement>(null);
   const pointer = useRef({ x: 0.5, y: 0.5 });
   const current = useRef({ x: 0.5, y: 0.5 });
 
-  const enablePointer = !reducedMotion && tier === "desktop";
+  const enablePointer = !reducedMotion && finePointer;
   const cinematic = intensity === "cinematic";
 
   useEffect(() => {
@@ -67,6 +68,7 @@ export function InteractiveBackground({ intensity = "cinematic" }: InteractiveBa
     let raf = 0;
 
     const onMove = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse") return;
       pointer.current.x = event.clientX / window.innerWidth;
       pointer.current.y = event.clientY / window.innerHeight;
     };

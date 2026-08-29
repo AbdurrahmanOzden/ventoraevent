@@ -1,16 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useSyncExternalStore } from "react";
-
-function subscribeFinePointer(onChange: () => void) {
-  const media = window.matchMedia("(hover: hover) and (pointer: fine) and (min-width: 1024px)");
-  media.addEventListener("change", onChange);
-  return () => media.removeEventListener("change", onChange);
-}
-
-function getFinePointer() {
-  return window.matchMedia("(hover: hover) and (pointer: fine) and (min-width: 1024px)").matches;
-}
+import { useFinePointer } from "@/hooks/use-ui";
+import { useEffect, useRef } from "react";
 
 const INTERACTIVE_SELECTOR = "a, button, [role='button'], input, textarea, select, label, summary";
 
@@ -19,7 +10,7 @@ interface CustomCursorProps {
 }
 
 export function CustomCursor({ enabled = true }: CustomCursorProps) {
-  const canUsePointer = useSyncExternalStore(subscribeFinePointer, getFinePointer, () => false);
+  const canUsePointer = useFinePointer();
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const haloRef = useRef<HTMLDivElement>(null);
