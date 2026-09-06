@@ -3,8 +3,6 @@ export const BRAND_LOGOS: { id: string; src: string; name: string }[] = [
   { id: "b02", src: "/images/brands/brand-02.jpg", name: "Referans 2" },
   { id: "b03", src: "/images/brands/brand-03.jpg", name: "Referans 3" },
   { id: "b04", src: "/images/brands/brand-04.jpg", name: "Referans 4" },
-  { id: "b05", src: "/images/brands/brand-05.jpg", name: "Referans 5" },
-  { id: "b06", src: "/images/brands/brand-06.jpg", name: "Referans 6" },
   { id: "b07", src: "/images/brands/brand-07.jpg", name: "Referans 7" },
   { id: "b08", src: "/images/brands/brand-08.jpg", name: "Referans 8" },
   { id: "b09", src: "/images/brands/brand-09.jpg", name: "Referans 9" },
@@ -38,4 +36,5 @@ export const BRAND_LOGOS: { id: string; src: string; name: string }[] = [
   { id: "b37", src: "/images/brands/brand-37.jpg", name: "Referans 37" },
   { id: "b38", src: "/images/brands/brand-38.png", name: "Referans 38" },
   { id: "b39", src: "/images/brands/brand-39.jpg", name: "Referans 39" },
+  { id: "b40", src: "/images/brands/brand-40.png", name: "Candy Candy" },
 ];
